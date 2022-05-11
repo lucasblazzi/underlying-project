@@ -152,7 +152,8 @@ Resources:
   Stage:
     Type: AWS::ApiGatewayV2::Stage
     DependsOn:
-      - ProductsRoute
+      - SearchRoute
+      - InfoRoute
     Properties:
       ApiId: !Ref OptionsAPI
       StageName: v1
