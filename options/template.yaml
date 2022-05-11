@@ -101,7 +101,7 @@ Resources:
       PassthroughBehavior: WHEN_NO_MATCH
       IntegrationType: AWS_PROXY
       IntegrationMethod: POST
-      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SearchLambda:.Arn}/invocations
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SearchLambda.Arn}/invocations
 
   InfoIntegration:
     Type: AWS::ApiGatewayV2::Integration
@@ -114,7 +114,7 @@ Resources:
       PassthroughBehavior: WHEN_NO_MATCH
       IntegrationType: AWS_PROXY
       IntegrationMethod: POST
-      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${InfoLambda:.Arn}/invocations
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${InfoLambda.Arn}/invocations
 
   SearchLambda:
     Type: AWS::Serverless::Function
