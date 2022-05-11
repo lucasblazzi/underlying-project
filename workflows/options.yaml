@@ -1,0 +1,45 @@
+name: Deploy Market Data CloudFormation Stacks
+
+on:
+  workflow_dispatch:
+    inputs:
+      region:
+        description: "AWS Region"
+        required: true
+        default: "us-east-1"
+
+jobs:
+  options-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        id: creds
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ github.event.inputs.region }}
+
+      - name: Install SAM dependencies
+        uses: aws-actions/setup-sam@v1
+
+      - name: Build AWS Cloudformation for options
+        id: options-build
+        run: sam package --s3-bucket $bucket --s3-prefix $prefix --region ${{ github.event.inputs.region }} --template-file $template
+        env:
+          bucket: "underlying-deployments"
+          prefix: "OPTIONS"
+          template: "options/template.yaml"
+
+      - name: Deploy Market Data AWS
+        id: options-deploy
+        run: sam deploy --no-fail-on-empty-changeset --s3-bucket $bucket --s3-prefix $prefix --template-file $template --stack-name $stack --capabilities $capabilities --region ${{ github.event.inputs.region }}
+        env:
+          bucket: "underlying-deployments"
+          prefix: "OPTIONS"
+          stack: "OPTIONS"
+          capabilities: "CAPABILITY_IAM"
+          template: "options/template.yaml"
