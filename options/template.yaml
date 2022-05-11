@@ -1,0 +1,160 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: Resources for project
+
+
+Parameters:
+
+  ApiGatewayName:
+    Type: String
+    Default: options
+
+  ApiGatewayStageName:
+    Type: String
+    Default: v1
+
+  LambdaRole:
+    Type: String
+    Default: arn:aws:iam::182960656850:role/lambda-role
+    Description: Role for lambda permission on AWS resources
+
+  ApiRole:
+    Type: String
+    Default: arn:aws:iam::182960656850:role/api-role
+
+
+Globals:
+  Function:
+    Runtime: python3.9
+
+
+Resources:
+
+  OptionsDataBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: options-data
+      VersioningConfiguration:
+        Status: Suspended
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  OptionsSeriesBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: options-series
+      VersioningConfiguration:
+        Status: Suspended
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  OptionsAPI:
+    Type: AWS::ApiGatewayV2::Api
+    DependsOn:
+      - APIHealthLambda
+    Properties:
+      Name: options-api
+      Description: API to provide options financial information
+      ProtocolType: HTTP
+      Target: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APIHealthLambda.Arn}/invocations
+
+  SearchRoute:
+    Type: AWS::ApiGatewayV2::Route
+    DependsOn:
+      - SearchIntegration
+    Properties:
+      ApiId: !Ref OptionsAPI
+      RouteKey: "POST /search"
+      AuthorizationType: NONE
+      Target: !Join
+        - /
+        - - integrations
+          - !Ref SearchIntegration
+
+  InfoRoute:
+    Type: AWS::ApiGatewayV2::Route
+    DependsOn:
+      - InfoIntegration
+    Properties:
+      ApiId: !Ref OptionsAPI
+      RouteKey: "POST /info"
+      AuthorizationType: NONE
+      Target: !Join
+        - /
+        - - integrations
+          - !Ref InfoIntegration
+
+  SearchIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref OptionsAPI
+      Description: Integration for options search to lambda invoke
+      CredentialsArn: !Ref ApiRole
+      ConnectionType: INTERNET
+      PayloadFormatVersion: "2.0"
+      PassthroughBehavior: WHEN_NO_MATCH
+      IntegrationType: AWS_PROXY
+      IntegrationMethod: POST
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SearchLambda:.Arn}/invocations
+
+  InfoIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref OptionsAPI
+      Description: Integration for options information to lambda invoke
+      CredentialsArn: !Ref ApiRole
+      ConnectionType: INTERNET
+      PayloadFormatVersion: "2.0"
+      PassthroughBehavior: WHEN_NO_MATCH
+      IntegrationType: AWS_PROXY
+      IntegrationMethod: POST
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${InfoLambda:.Arn}/invocations
+
+  SearchLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: OPTIONS-SEARCH
+      Handler: app.app.lambda_handler
+      CodeUri: functions/search
+      Role: !Ref LambdaRole
+      Description: Lambda to search options
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref OptionsDataBucket
+
+  InfoLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: OPTIONS-INFO
+      Handler: app.app.lambda_handler
+      CodeUri: functions/info
+      Role: !Ref LambdaRole
+      Description: Lambda to get options information
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref OptionsDataBucket
+
+  APIHealthLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: OPTIONS-HEALTH
+      Handler: app.app.lambda_handler
+      CodeUri: functions/health
+      Role: !Ref LambdaRole
+      Description: Lambda to health check API
+
+  Stage:
+    Type: AWS::ApiGatewayV2::Stage
+    DependsOn:
+      - ProductsRoute
+    Properties:
+      ApiId: !Ref OptionsAPI
+      StageName: v1
+      Description: API deployment stage
+      AutoDeploy: True
