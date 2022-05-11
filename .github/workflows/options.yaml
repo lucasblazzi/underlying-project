@@ -1,4 +1,4 @@
-name: Deploy Market Data CloudFormation Stacks
+name: Deploy Option CloudFormation Stacks
 
 on:
   workflow_dispatch:
