@@ -33,7 +33,7 @@ Resources:
   OptionsDataBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: options-data
+      BucketName: underlying-options-data
       VersioningConfiguration:
         Status: Suspended
       PublicAccessBlockConfiguration:
@@ -45,7 +45,7 @@ Resources:
   OptionsSeriesBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: options-series
+      BucketName: underlying-options-series
       VersioningConfiguration:
         Status: Suspended
       PublicAccessBlockConfiguration:
