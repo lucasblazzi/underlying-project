@@ -63,6 +63,10 @@ Resources:
       Description: API to provide options financial information
       ProtocolType: HTTP
       Target: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APIHealthLambda.Arn}/invocations
+      CorsConfiguration:
+        allowOrigins: *
+        allowMethods: [GET, POST, OPTIONS]
+        allowHeaders: *
 
   SearchRoute:
     Type: AWS::ApiGatewayV2::Route
