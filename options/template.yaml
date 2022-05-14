@@ -173,8 +173,6 @@ Resources:
       Handler: app.app.lambda_handler
       CodeUri: functions/data-sources/b3
       Role: !Ref LambdaRole
-      Timeout: 600
-      MemorySize: 256
       Environment:
         Variables:
           BUCKET_NAME: !Ref OptionsSeriesBucket
