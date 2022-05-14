@@ -1,13 +1,16 @@
+import os
 import json
 import hashlib
 
 import pandas as pd
 
+base_path = os.path.dirname(os.path.abspath(__file__))
+
 
 class Builder:
     def __init__(self, dfs):
         self.dfs = dfs
-        self.names = json.load(open("./plans/names.json", encoding="utf8"))
+        self.names = json.load(open(os.path.join(base_path, "./plans/names.json"), encoding="utf8"))
 
     @property
     def architect(self):
