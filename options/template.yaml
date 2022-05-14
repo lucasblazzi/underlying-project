@@ -67,6 +67,7 @@ Resources:
         AllowOrigins: ["*"]
         AllowMethods: ["GET", "POST", "OPTIONS"]
         AllowHeaders: ["Authorization"]
+        ExposeHeaders: ["Access-Control-Allow-Origin"]
 
   SearchRoute:
     Type: AWS::ApiGatewayV2::Route
@@ -120,39 +121,6 @@ Resources:
       IntegrationMethod: POST
       IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${InfoLambda.Arn}/invocations
 
-  SearchLambda:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: OPTIONS-SEARCH
-      Handler: app.app.lambda_handler
-      CodeUri: functions/search
-      Role: !Ref LambdaRole
-      Description: Lambda to search options
-      Environment:
-        Variables:
-          BUCKET_NAME: !Ref OptionsDataBucket
-
-  InfoLambda:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: OPTIONS-INFO
-      Handler: app.app.lambda_handler
-      CodeUri: functions/info
-      Role: !Ref LambdaRole
-      Description: Lambda to get options information
-      Environment:
-        Variables:
-          BUCKET_NAME: !Ref OptionsDataBucket
-
-  APIHealthLambda:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: OPTIONS-HEALTH
-      Handler: app.app.lambda_handler
-      CodeUri: functions/health
-      Role: !Ref LambdaRole
-      Description: Lambda to health check API
-
   Stage:
     Type: AWS::ApiGatewayV2::Stage
     DependsOn:
@@ -163,3 +131,50 @@ Resources:
       StageName: v1
       Description: API deployment stage
       AutoDeploy: True
+
+  SearchLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: OPTIONS-API-SEARCH
+      Description: Search options based on custom filters
+      Handler: app.app.lambda_handler
+      CodeUri: functions/api/search
+      Role: !Ref LambdaRole
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref OptionsDataBucket
+
+  InfoLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: OPTIONS-API-INFO
+      Description: Get options information based on id
+      Handler: app.app.lambda_handler
+      CodeUri: functions/api/info
+      Role: !Ref LambdaRole
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref OptionsDataBucket
+
+  APIHealthLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: OPTIONS-API-HEALTH
+      Description: Health check Options API
+      Handler: app.app.lambda_handler
+      CodeUri: functions/api/health
+      Role: !Ref LambdaRole
+
+  B3DataSourceLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: OPTIONS-DATA-SOURCE-B3
+      Description: Load options information from B3
+      Handler: app.app.lambda_handler
+      CodeUri: functions/data-sources/b3
+      Role: !Ref LambdaRole
+      Timeout: 600
+      MemorySize: 256
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref OptionsSeriesBucket
