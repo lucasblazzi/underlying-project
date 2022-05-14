@@ -133,6 +133,7 @@
     "70": "OPÇÕES DE COMPRA",
     "80": "OPÇÕES DE VENDA"
   },
+
   "folder_mapper": {
     "VISTA": "acoes",
     "EXERCÍCIO DE OPÇÕES DE COMPRA": "exercicio",
@@ -144,6 +145,11 @@
     "FUTURO COM MOVIMENTAÇÃO CONTÍNUA": "futuros",
     "OPÇÕES DE COMPRA": "opcoes",
     "OPÇÕES DE VENDA": "opcoes"
+  },
+
+  "option_type_mapper": {
+    "OPÇÕES DE COMPRA": "CALL",
+    "OPÇÕES DE VENDA": "PUT"
   },
 
   "intraday_data": {
