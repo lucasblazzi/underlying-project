@@ -2,9 +2,13 @@ import os
 import json
 import hashlib
 
+import numpy as np
 import pandas as pd
+from option import OptionCall, OptionPut
 
 base_path = os.path.dirname(os.path.abspath(__file__))
+
+underlying_cols = ["name_underlying", "company_underlying", "close_price_underlying"]
 
 
 class Builder:
@@ -14,19 +18,42 @@ class Builder:
 
     @property
     def architect(self):
+        results = list()
         if isinstance(self.dfs, list):
             result = pd.concat([self.build(df) for df in self.dfs])
         else:
             result = self.build(self.dfs)
 
-        results = list()
-        for k, df in result.groupby(["name", "folder", "market_type", "exercise_price", "expiration_date", "isin_code"]):
-            if k[1] == "opcoes":
-                group_hash = hashlib.md5(str(k).encode()).hexdigest()
-                df["id"] = group_hash
-                df.index.name = f"name={k[0]}/{group_hash}"
+        underlyings = result[(result["folder"] == "acoes")]
+        options = result[(result["folder"] == "opcoes")]
+        for k, raw_df in options.groupby(["name", "folder", "type", "exercise_price", "expiration_date", "isin_code"]):
+            group_hash = hashlib.md5(str(k).encode()).hexdigest()
+            raw_df["id"] = group_hash
+            df = pd.merge(raw_df, underlyings, how="left", on=["isin_code", "date"], suffixes=("", "_underlying"))
+            df = df[raw_df.columns.tolist() + underlying_cols]
+            df["expiration_time"] = (df["expiration_date"] - df["date"]).dt.days / 365
+            df["return_underlying"] = df["close_price_underlying"].pct_change().fillna(0)
+            df = self.calculate(df)
+            df.index.name = f"name={k[0]}/{group_hash}"
+            test = ("BOV", "VAL", "PET")
+            if k[0][0:3] in test:
+                print(f"[INFO] Processing {k[0]}")
                 results.append(df)
         return results
+
+    @staticmethod
+    def calculate(df, periods_in_year: int = 252):
+        df["volatility_underlying"] = df["return_underlying"].std(ddof=1) * np.sqrt(periods_in_year)
+        option_type = df["type"].iloc[-1]
+        if option_type == "CALL":
+            df = OptionCall(df).features
+        elif option_type == "PUT":
+            df = OptionPut(df).features
+        else:
+            print("UNIDENTIFIED OPTION TYPE")
+        df = df.replace([np.inf, -np.inf], np.nan)
+        df = df.fillna(0)
+        return df
 
     def market_view(self, market):
         if market in self.names["derivative_types"]:
@@ -60,12 +87,16 @@ class Builder:
     def map_folder(self, market_type):
         return self.names["folder_mapper"][market_type]
 
+    def map_type(self, market_type):
+        return self.names["option_type_mapper"].get(market_type, "")
+
     @staticmethod
     def parse_date(date_input):
         date = date_input.split(".")[0]
         return f"{date[0:4]}-{date[4:6]}-{date[6:8]}"
 
     def daily_data(self, df):
+        cols_to_drop = ["market_type", "bdi_code"]
         df = df.drop(df.shape[0] - 1)
         for column in self.names["daily_comma_parse"]:
             df[column] = df[column]/100
@@ -74,5 +105,7 @@ class Builder:
             lambda x: self.parse_date(str(x))), errors="coerce")
         df["bdi_code"] = df["bdi_code"].apply(lambda x: self.map_bdi(x))
         df["market_type"] = df["market_type"].apply(lambda x: self.map_market(x))
+        df["type"] = df["market_type"].apply(lambda x: self.map_type(x))
         df["folder"] = df["market_type"].apply(lambda x: self.map_folder(x))
+        df = df.drop(columns=cols_to_drop)
         return df

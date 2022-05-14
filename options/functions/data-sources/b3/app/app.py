@@ -4,9 +4,9 @@ from io import BytesIO
 
 from cryptography.fernet import Fernet
 
-from .crawler import Crawler
-from .builder import Builder
-from .aws.s3 import S3
+from crawler import Crawler
+from builder import Builder
+from aws.s3 import S3
 
 
 daily_field_length = [2, 8, 2, 12, 3, 12, 10, 3, 4, 13, 13, 13, 13, 13, 13, 13, 5, 18, 18, 13, 1, 8, 7, 13, 12, 3]
@@ -30,10 +30,15 @@ async def save_data(dfs):
     tasks = list()
     async with S3() as s3:
         for df in dfs:
-            buffer = BytesIO()
-            df = df.sort_values("date")
-            df.to_parquet(buffer, index=False)
-            tasks.append(s3.insert_file(buffer.getvalue(), f"s3://{BUCKET_NAME}/{df.index.name}.snappy.parquet"))
+            print(f"[SAVE] {df.index.name}")
+            try:
+                buffer = BytesIO()
+                df = df.sort_values("date")
+                df.to_parquet(buffer, index=False)
+                tasks.append(s3.insert_file(buffer.getvalue(), f"s3://{BUCKET_NAME}/{df.index.name}.snappy.parquet"))
+            except Exception as e:
+                print(f"ERROR ON {df.index.name}")
+                continue
         await asyncio.gather(*tasks)
 
 
@@ -52,3 +57,6 @@ def lambda_handler(event, context):
     loop = asyncio.get_event_loop()
     loop.run_until_complete(loader(event))
     loop.close()
+
+
+lambda_handler({"start": 2022, "end": 2022}, "")
