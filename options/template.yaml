@@ -30,6 +30,11 @@ Globals:
 
 Resources:
 
+  OptionsECR:
+    Type: AWS:ECR:Repository
+    Properties:
+      RepositoryName: underlying-options
+
   OptionsDataBucket:
     Type: AWS::S3::Bucket
     Properties:
@@ -144,35 +149,39 @@ Resources:
         Variables:
           BUCKET_NAME: !Ref OptionsDataBucket
 
-  InfoLambda:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: OPTIONS-API-INFO
-      Description: Get options information based on id
-      Handler: app.app.lambda_handler
-      CodeUri: functions/api/info
-      Role: !Ref LambdaRole
-      Environment:
-        Variables:
-          BUCKET_NAME: !Ref OptionsDataBucket
-
-  APIHealthLambda:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: OPTIONS-API-HEALTH
-      Description: Health check Options API
-      Handler: app.app.lambda_handler
-      CodeUri: functions/api/health
-      Role: !Ref LambdaRole
-
-  B3DataSourceLambda:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: OPTIONS-DATA-SOURCE-B3
-      Description: Load options information from B3
-      Handler: app.app.lambda_handler
-      CodeUri: functions/data-sources/b3
-      Role: !Ref LambdaRole
-      Environment:
-        Variables:
-          BUCKET_NAME: !Ref OptionsSeriesBucket
+#  InfoLambda:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: OPTIONS-API-INFO
+#      Description: Get options information based on id
+#      PackageType: Image
+#      Role: !Ref LambdaRole
+#      Environment:
+#        Variables:
+#          BUCKET_NAME: !Ref OptionsDataBucket
+#    Metadata:
+#      DockerTag: options-api-info
+#      DockerContext: functions/api/info
+#      Dockerfile: Dockerfile
+#
+#
+#  APIHealthLambda:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: OPTIONS-API-HEALTH
+#      Description: Health check Options API
+#      Handler: app.app.lambda_handler
+#      CodeUri: functions/api/health
+#      Role: !Ref LambdaRole
+#
+#  B3DataSourceLambda:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: OPTIONS-DATA-SOURCE-B3
+#      Description: Load options information from B3
+#      Handler: app.app.lambda_handler
+#      CodeUri: functions/data-sources/b3
+#      Role: !Ref LambdaRole
+#      Environment:
+#        Variables:
+#          BUCKET_NAME: !Ref OptionsSeriesBucket
