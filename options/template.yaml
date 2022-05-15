@@ -136,19 +136,22 @@ Resources:
       StageName: v1
       Description: API deployment stage
       AutoDeploy: True
-
-  SearchLambda:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: OPTIONS-API-SEARCH
-      Description: Search options based on custom filters
-      Handler: app.app.lambda_handler
-      CodeUri: functions/api/search
-      Role: !Ref LambdaRole
-      Environment:
-        Variables:
-          BUCKET_NAME: !Ref OptionsDataBucket
-
+#
+#  SearchLambda:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: OPTIONS-API-SEARCH
+#      Description: Search options based on custom filters
+#      PackageType: Image
+#      Role: !Ref LambdaRole
+#      Environment:
+#        Variables:
+#          BUCKET_NAME: !Ref OptionsDataBucket
+#    Metadata:
+#      DockerTag: options-api-search
+#      DockerContext: functions/api/search
+#      Dockerfile: Dockerfile
+#
 #  InfoLambda:
 #    Type: AWS::Serverless::Function
 #    Properties:
@@ -163,7 +166,6 @@ Resources:
 #      DockerTag: options-api-info
 #      DockerContext: functions/api/info
 #      Dockerfile: Dockerfile
-#
 #
 #  APIHealthLambda:
 #    Type: AWS::Serverless::Function
