@@ -23,11 +23,6 @@ Parameters:
     Default: arn:aws:iam::182960656850:role/api-role
 
 
-Globals:
-  Function:
-    Runtime: python3.8
-
-
 Resources:
 
   OptionsECR:
@@ -172,6 +167,7 @@ Resources:
     Properties:
       FunctionName: OPTIONS-API-HEALTH
       Description: Health check Options API
+      Runtime: python3.8
       Handler: app.app.lambda_handler
       CodeUri: functions/api/health
       Role: !Ref LambdaRole
@@ -181,6 +177,7 @@ Resources:
     Properties:
       FunctionName: OPTIONS-DATA-SOURCE-B3
       Description: Load options information from B3
+      Runtime: python3.8
       Handler: app.app.lambda_handler
       CodeUri: functions/data-sources/b3
       Role: !Ref LambdaRole
