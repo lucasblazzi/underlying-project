@@ -33,7 +33,7 @@ jobs:
           bucket: "underlying-deployments"
           prefix: "OPTIONS"
           template: "options/template.yaml"
-          ecr: ""
+          ecr: "empty"
 
       - name: Deploy Market Data AWS
         id: options-deploy
@@ -44,4 +44,4 @@ jobs:
           stack: "OPTIONS"
           capabilities: "CAPABILITY_IAM"
           template: "options/template.yaml"
-          ecr: ""
+          ecr: "empty"
