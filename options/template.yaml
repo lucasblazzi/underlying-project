@@ -143,7 +143,7 @@ Resources:
         Variables:
           BUCKET_NAME: !Ref OptionsDataBucket
     Metadata:
-      DockerTag: v1
+      DockerTag: options-api-search
       DockerContext: functions/api/search
       Dockerfile: Dockerfile
 
@@ -158,7 +158,7 @@ Resources:
         Variables:
           BUCKET_NAME: !Ref OptionsDataBucket
     Metadata:
-      DockerTag: v1
+      DockerTag: options-api-info
       DockerContext: functions/api/info
       Dockerfile: Dockerfile
 
