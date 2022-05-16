@@ -32,14 +32,14 @@ jobs:
         env:
           template: "options/template.yaml"
 
-      - name: Package Options AWS Cloudformation
-        id: options-build
-        run: sam package --s3-bucket $bucket --s3-prefix $prefix --region ${{ github.event.inputs.region }} --template-file $template --image-repository $ecr
-        env:
-          bucket: "underlying-deployments"
-          prefix: "OPTIONS"
-          template: "options/template.yaml"
-          ecr: "182960656850.dkr.ecr.us-east-1.amazonaws.com/underlying-options"
+#      - name: Package Options AWS Cloudformation
+#        id: options-package
+#        run: sam package --s3-bucket $bucket --s3-prefix $prefix --region ${{ github.event.inputs.region }} --template-file $template --image-repository $ecr
+#        env:
+#          bucket: "underlying-deployments"
+#          prefix: "OPTIONS"
+#          template: "options/template.yaml"
+#          ecr: "182960656850.dkr.ecr.us-east-1.amazonaws.com/underlying-options"
 
       - name: Build Options Service AWS
         id: options-build
