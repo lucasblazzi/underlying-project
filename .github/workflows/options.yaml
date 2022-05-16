@@ -34,20 +34,18 @@ jobs:
 
       - name: Package Options AWS Cloudformation
         id: options-build
-        run: sam package --s3-bucket $bucket --s3-prefix $prefix --region ${{ github.event.inputs.region }} --template-file $template --image-repository $ecr
+        run: sam package --s3-bucket $bucket --s3-prefix $prefix --region ${{ github.event.inputs.region }} --template-file $template --create-image-repository
         env:
           bucket: "underlying-deployments"
           prefix: "OPTIONS"
           template: "options/template.yaml"
-          ecr: "182960656850.dkr.ecr.us-east-1.amazonaws.com/underlying-options"
 
       - name: Deploy Options Service AWS
         id: options-deploy
-        run: sam deploy --no-fail-on-empty-changeset --s3-bucket $bucket --s3-prefix $prefix --template-file $template --stack-name $stack --capabilities $capabilities --region ${{ github.event.inputs.region }} --image-repository $ecr
+        run: sam deploy --no-fail-on-empty-changeset --s3-bucket $bucket --s3-prefix $prefix --template-file $template --stack-name $stack --capabilities $capabilities --region ${{ github.event.inputs.region }} --create-image-repository
         env:
           bucket: "underlying-deployments"
           prefix: "OPTIONS"
           stack: "OPTIONS"
           capabilities: "CAPABILITY_IAM"
           template: "options/template.yaml"
-          ecr: "182960656850.dkr.ecr.us-east-1.amazonaws.com/underlying-options"
