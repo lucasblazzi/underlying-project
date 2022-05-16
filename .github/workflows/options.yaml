@@ -26,14 +26,14 @@ jobs:
       - name: Install SAM dependencies
         uses: aws-actions/setup-sam@v1
 
-#      - name: Build AWS Cloudformation for options
-#        id: options-build
-#        run: sam package --s3-bucket $bucket --s3-prefix $prefix --region ${{ github.event.inputs.region }} --template-file $template --image-repository $ecr
-#        env:
-#          bucket: "underlying-deployments"
-#          prefix: "OPTIONS"
-#          template: "options/template.yaml"
-#          ecr: "182960656850.dkr.ecr.us-east-1.amazonaws.com/underlying-options"
+      - name: Build AWS Cloudformation for options
+        id: options-build
+        run: sam package --s3-bucket $bucket --s3-prefix $prefix --region ${{ github.event.inputs.region }} --template-file $template --image-repository $ecr
+        env:
+          bucket: "underlying-deployments"
+          prefix: "OPTIONS"
+          template: "options/template.yaml"
+          ecr: "182960656850.dkr.ecr.us-east-1.amazonaws.com/underlying-options"
 
       - name: Deploy Market Data AWS
         id: options-deploy
