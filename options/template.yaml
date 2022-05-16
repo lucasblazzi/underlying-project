@@ -31,7 +31,7 @@ Globals:
 Resources:
 
   OptionsECR:
-    Type: AWS:ECR:Repository
+    Type: AWS::ECR::Repository
     Properties:
       RepositoryName: underlying-options
 
@@ -74,98 +74,98 @@ Resources:
         AllowHeaders: ["Authorization"]
         ExposeHeaders: ["Access-Control-Allow-Origin"]
 
-  SearchRoute:
-    Type: AWS::ApiGatewayV2::Route
-    DependsOn:
-      - SearchIntegration
-    Properties:
-      ApiId: !Ref OptionsAPI
-      RouteKey: "POST /search"
-      AuthorizationType: NONE
-      Target: !Join
-        - /
-        - - integrations
-          - !Ref SearchIntegration
-
-  InfoRoute:
-    Type: AWS::ApiGatewayV2::Route
-    DependsOn:
-      - InfoIntegration
-    Properties:
-      ApiId: !Ref OptionsAPI
-      RouteKey: "POST /info"
-      AuthorizationType: NONE
-      Target: !Join
-        - /
-        - - integrations
-          - !Ref InfoIntegration
-
-  SearchIntegration:
-    Type: AWS::ApiGatewayV2::Integration
-    Properties:
-      ApiId: !Ref OptionsAPI
-      Description: Integration for options search to lambda invoke
-      CredentialsArn: !Ref ApiRole
-      ConnectionType: INTERNET
-      PayloadFormatVersion: "2.0"
-      PassthroughBehavior: WHEN_NO_MATCH
-      IntegrationType: AWS_PROXY
-      IntegrationMethod: POST
-      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SearchLambda.Arn}/invocations
-
-  InfoIntegration:
-    Type: AWS::ApiGatewayV2::Integration
-    Properties:
-      ApiId: !Ref OptionsAPI
-      Description: Integration for options information to lambda invoke
-      CredentialsArn: !Ref ApiRole
-      ConnectionType: INTERNET
-      PayloadFormatVersion: "2.0"
-      PassthroughBehavior: WHEN_NO_MATCH
-      IntegrationType: AWS_PROXY
-      IntegrationMethod: POST
-      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${InfoLambda.Arn}/invocations
+#  SearchRoute:
+#    Type: AWS::ApiGatewayV2::Route
+#    DependsOn:
+#      - SearchIntegration
+#    Properties:
+#      ApiId: !Ref OptionsAPI
+#      RouteKey: "POST /search"
+#      AuthorizationType: NONE
+#      Target: !Join
+#        - /
+#        - - integrations
+#          - !Ref SearchIntegration
+#
+#  InfoRoute:
+#    Type: AWS::ApiGatewayV2::Route
+#    DependsOn:
+#      - InfoIntegration
+#    Properties:
+#      ApiId: !Ref OptionsAPI
+#      RouteKey: "POST /info"
+#      AuthorizationType: NONE
+#      Target: !Join
+#        - /
+#        - - integrations
+#          - !Ref InfoIntegration
+#
+#  SearchIntegration:
+#    Type: AWS::ApiGatewayV2::Integration
+#    Properties:
+#      ApiId: !Ref OptionsAPI
+#      Description: Integration for options search to lambda invoke
+#      CredentialsArn: !Ref ApiRole
+#      ConnectionType: INTERNET
+#      PayloadFormatVersion: "2.0"
+#      PassthroughBehavior: WHEN_NO_MATCH
+#      IntegrationType: AWS_PROXY
+#      IntegrationMethod: POST
+#      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SearchLambda.Arn}/invocations
+#
+#  InfoIntegration:
+#    Type: AWS::ApiGatewayV2::Integration
+#    Properties:
+#      ApiId: !Ref OptionsAPI
+#      Description: Integration for options information to lambda invoke
+#      CredentialsArn: !Ref ApiRole
+#      ConnectionType: INTERNET
+#      PayloadFormatVersion: "2.0"
+#      PassthroughBehavior: WHEN_NO_MATCH
+#      IntegrationType: AWS_PROXY
+#      IntegrationMethod: POST
+#      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${InfoLambda.Arn}/invocations
 
   Stage:
     Type: AWS::ApiGatewayV2::Stage
-    DependsOn:
-      - SearchRoute
-      - InfoRoute
+#    DependsOn:
+#      - SearchRoute
+#      - InfoRoute
     Properties:
       ApiId: !Ref OptionsAPI
       StageName: v1
       Description: API deployment stage
       AutoDeploy: True
 
-  SearchLambda:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: OPTIONS-API-SEARCH
-      Description: Search options based on custom filters
-      PackageType: Image
-      Role: !Ref LambdaRole
-      Environment:
-        Variables:
-          BUCKET_NAME: !Ref OptionsDataBucket
-    Metadata:
-      DockerTag: options-api-search
-      DockerContext: functions/api/search
-      Dockerfile: Dockerfile
-
-  InfoLambda:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: OPTIONS-API-INFO
-      Description: Get options information based on id
-      PackageType: Image
-      Role: !Ref LambdaRole
-      Environment:
-        Variables:
-          BUCKET_NAME: !Ref OptionsDataBucket
-    Metadata:
-      DockerTag: options-api-info
-      DockerContext: functions/api/info
-      Dockerfile: Dockerfile
+#  SearchLambda:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: OPTIONS-API-SEARCH
+#      Description: Search options based on custom filters
+#      PackageType: Image
+#      Role: !Ref LambdaRole
+#      Environment:
+#        Variables:
+#          BUCKET_NAME: !Ref OptionsDataBucket
+#    Metadata:
+#      DockerTag: options-api-search
+#      DockerContext: functions/api/search
+#      Dockerfile: Dockerfile
+#
+#  InfoLambda:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: OPTIONS-API-INFO
+#      Description: Get options information based on id
+#      PackageType: Image
+#      Role: !Ref LambdaRole
+#      Environment:
+#        Variables:
+#          BUCKET_NAME: !Ref OptionsDataBucket
+#    Metadata:
+#      DockerTag: options-api-info
+#      DockerContext: functions/api/info
+#      Dockerfile: Dockerfile
 
   APIHealthLambda:
     Type: AWS::Serverless::Function
