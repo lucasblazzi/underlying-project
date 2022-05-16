@@ -42,7 +42,7 @@ jobs:
 
       - name: Deploy Options Service AWS
         id: options-deploy
-        run: sam deploy --no-fail-on-empty-changeset --s3-bucket $bucket --s3-prefix $prefix --template-file $template --stack-name $stack --capabilities $capabilities --region ${{ github.event.inputs.region }} --create-image-repository
+        run: sam deploy --no-fail-on-empty-changeset --s3-bucket $bucket --s3-prefix $prefix --template-file $template --stack-name $stack --capabilities $capabilities --region ${{ github.event.inputs.region }} --resolve-image-repos
         env:
           bucket: "underlying-deployments"
           prefix: "OPTIONS"
