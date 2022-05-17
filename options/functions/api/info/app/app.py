@@ -1,4 +1,19 @@
+import os
 import json
+from .aws.athena import Athena
+
+
+REGION = os.environ.get("REGION")
+ATHENA_DB = os.environ.get("ATHENA_DB")
+OPTIONS_TABLE = os.environ.get("OPTIONS_TABLE")
+
+
+async def run_queries():
+    athena = Athena()
+    query = f"""SELECT * FROM {ATHENA_DB}.{OPTIONS_TABLE} LIMIT 10"""
+    async with athena.session.create_client("athena", region_name=REGION) as athena_client:
+        result = await athena.run_query(query, athena_client)
+    return result
 
 
 mock = [
