@@ -184,3 +184,18 @@ Resources:
       Environment:
         Variables:
           BUCKET_NAME: !Ref OptionsSeriesBucket
+
+  PayoffLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: OPTIONS-SERVICES-PAYOFF
+      Description: Get strategy and options payoff data
+      PackageType: Image
+      Role: !Ref LambdaRole
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref OptionsDataBucket
+    Metadata:
+      DockerTag: options-services-payoff
+      DockerContext: functions/services/info
+      Dockerfile: Dockerfile
