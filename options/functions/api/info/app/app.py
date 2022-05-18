@@ -291,7 +291,8 @@ async def get_payoff(option):
 async def handler(event):
     # option = pd.DataFrame(await get_option(event)).sort_values("date")
     # payoff_option = option.iloc[-1].to_dict()
-    # payoff = await get_payoff(option)
+    # payoff = await get_payoff(payoff_option)
+    # x = 0
     return {
         "statusCode": 200,
         "body": json.dumps(mock)
@@ -303,8 +304,8 @@ def lambda_handler(event, context):
     return loop.run_until_complete(handler(event))
 
 
-# event = {
-#     "name": "BOVAA100",
-#     "id": "5153291b1c140f84eddd6b4c9410b82b"
-# }
-# print(lambda_handler(event, ""))
+event = {
+    "name": "BOVAA100",
+    "id": "5153291b1c140f84eddd6b4c9410b82b"
+}
+print(lambda_handler(event, ""))

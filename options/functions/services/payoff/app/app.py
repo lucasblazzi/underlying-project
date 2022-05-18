@@ -55,10 +55,8 @@ def lambda_handler(event, context):
     else:
         result = [single_payoff(option, x) for option in event["options"]]
 
-    return {
-        "statusCode": 200,
-        "body": json.dumps(result, cls=NumpyArrayEncoder)
-    }
+    return json.dumps(result, cls=NumpyArrayEncoder)
+
 
 
 # event = {
