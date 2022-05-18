@@ -1,19 +1,16 @@
 import os
 import json
-from .aws.athena import Athena
+import asyncio
+
+import pandas as pd
+from aiobotocore.session import get_session
+
+session = get_session()
 
 
-REGION = os.environ.get("REGION")
-ATHENA_DB = os.environ.get("ATHENA_DB")
-OPTIONS_TABLE = os.environ.get("OPTIONS_TABLE")
-
-
-async def run_queries():
-    athena = Athena()
-    query = f"""SELECT * FROM {ATHENA_DB}.{OPTIONS_TABLE} LIMIT 10"""
-    async with athena.session.create_client("athena", region_name=REGION) as athena_client:
-        result = await athena.run_query(query, athena_client)
-    return result
+SERIES_BUCKET = os.environ.get("SERIES_BUCKET", "underlying-options-series")
+REGION = os.environ.get("REGION", "us-east-1")
+PAYOFF_LAMBDA = os.environ.get("PAYOFF_LAMBDA", "")
 
 
 mock = [
@@ -261,8 +258,38 @@ mock = [
 ]
 
 
-def lambda_handler(event, context):
+async def get_option(option):
+    return pd.read_parquet(f"s3://{SERIES_BUCKET}/name={option['name']}/{option['id']}.snappy.parquet")
+
+
+async def get_payoff(option):
+    async with session.create_client("lambda", region_name=REGION) as client:
+        response = await client.invoke(
+            FunctionName=PAYOFF_LAMBDA,
+            InvocationType="RequestResponse",
+            Payload=json.dumps(option)
+        )
+        result = await response["Payload"].read()
+    return json.loads(result.decode("utf-8"))
+
+
+async def handler(event):
+    option = pd.DataFrame(await get_option(event)).sort_values("date")
+    payoff_option = option.iloc[-1].to_dict()
+    payoff = await get_payoff(option)
     return {
         "statusCode": 200,
-        "body": json.dumps(mock)
+        "body": json.dumps([])
     }
+
+
+def lambda_handler(event, context):
+    loop = asyncio.get_event_loop()
+    return loop.run_until_complete(handler(event))
+
+
+event = {
+    "name": "BOVAA100",
+    "id": "5153291b1c140f84eddd6b4c9410b82b"
+}
+print(lambda_handler(event, ""))

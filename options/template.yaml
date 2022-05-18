@@ -141,7 +141,10 @@ Resources:
       Role: !Ref LambdaRole
       Environment:
         Variables:
-          BUCKET_NAME: !Ref OptionsDataBucket
+          REGION: !Ref AWS::Region
+          ACCOUNT_ID: !Ref AWS::AccountId
+          OPTIONS_TABLE: x
+          ATHENA_DB: x
     Metadata:
       DockerTag: options-api-search
       DockerContext: functions/api/search
@@ -156,7 +159,10 @@ Resources:
       Role: !Ref LambdaRole
       Environment:
         Variables:
-          BUCKET_NAME: !Ref OptionsDataBucket
+          REGION: !Ref AWS::Region
+          ACCOUNT_ID: !Ref AWS::AccountId
+          OPTIONS_TABLE: x
+          ATHENA_DB: x
     Metadata:
       DockerTag: options-api-info
       DockerContext: functions/api/info
