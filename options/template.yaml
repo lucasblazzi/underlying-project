@@ -143,8 +143,8 @@ Resources:
         Variables:
           REGION: !Ref AWS::Region
           ACCOUNT_ID: !Ref AWS::AccountId
-          OPTIONS_TABLE: x
-          ATHENA_DB: x
+          ATHENA_DB: db_underlying
+          OPTIONS_TABLE: tb_options_series
     Metadata:
       DockerTag: options-api-search
       DockerContext: functions/api/search
@@ -152,6 +152,8 @@ Resources:
 
   InfoLambda:
     Type: AWS::Serverless::Function
+    DependsOn:
+      - PayoffLambda
     Properties:
       FunctionName: OPTIONS-API-INFO
       Description: Get options information based on id
@@ -160,9 +162,8 @@ Resources:
       Environment:
         Variables:
           REGION: !Ref AWS::Region
-          ACCOUNT_ID: !Ref AWS::AccountId
-          OPTIONS_TABLE: x
-          ATHENA_DB: x
+          SERIES_BUCKET: !Ref OptionsSeriesBucket
+          PAYOFF_LAMBDA: !Ref PayoffLambda
     Metadata:
       DockerTag: options-api-info
       DockerContext: functions/api/info
@@ -200,7 +201,7 @@ Resources:
       Role: !Ref LambdaRole
       Environment:
         Variables:
-          BUCKET_NAME: !Ref OptionsDataBucket
+          PRICE_RANGE: 20
     Metadata:
       DockerTag: options-services-payoff
       DockerContext: functions/services/info

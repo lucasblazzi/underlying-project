@@ -1,0 +1,2 @@
+pandas==1.2.4
+aiobotocore==1.4.0

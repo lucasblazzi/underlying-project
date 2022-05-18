@@ -10,7 +10,7 @@ session = get_session()
 
 SERIES_BUCKET = os.environ.get("SERIES_BUCKET", "underlying-options-series")
 REGION = os.environ.get("REGION", "us-east-1")
-PAYOFF_LAMBDA = os.environ.get("PAYOFF_LAMBDA", "")
+PAYOFF_LAMBDA = os.environ.get("PAYOFF_LAMBDA", "OPTIONS-SERVICES-PAYOFF")
 
 
 mock = [
@@ -258,6 +258,21 @@ mock = [
 ]
 
 
+def preprocess_payload(option):
+    payload = {"options": [], "strategy": False}
+    transaction_types = ("SHORT", "LONG")
+    for t in transaction_types:
+        tmp_opt = {
+            "exercise_price": option["exercise_price"],
+            "close_price": option["close_price"],
+            "contracts": 1,
+            "type": option["type"],
+            "transaction_type": t
+        }
+        payload["options"].append(tmp_opt)
+    return payload
+
+
 async def get_option(option):
     return pd.read_parquet(f"s3://{SERIES_BUCKET}/name={option['name']}/{option['id']}.snappy.parquet")
 
@@ -267,19 +282,19 @@ async def get_payoff(option):
         response = await client.invoke(
             FunctionName=PAYOFF_LAMBDA,
             InvocationType="RequestResponse",
-            Payload=json.dumps(option)
+            Payload=json.dumps(preprocess_payload(option))
         )
         result = await response["Payload"].read()
     return json.loads(result.decode("utf-8"))
 
 
 async def handler(event):
-    option = pd.DataFrame(await get_option(event)).sort_values("date")
-    payoff_option = option.iloc[-1].to_dict()
-    payoff = await get_payoff(option)
+    # option = pd.DataFrame(await get_option(event)).sort_values("date")
+    # payoff_option = option.iloc[-1].to_dict()
+    # payoff = await get_payoff(option)
     return {
         "statusCode": 200,
-        "body": json.dumps([])
+        "body": json.dumps(mock)
     }
 
 
@@ -288,8 +303,8 @@ def lambda_handler(event, context):
     return loop.run_until_complete(handler(event))
 
 
-event = {
-    "name": "BOVAA100",
-    "id": "5153291b1c140f84eddd6b4c9410b82b"
-}
-print(lambda_handler(event, ""))
+# event = {
+#     "name": "BOVAA100",
+#     "id": "5153291b1c140f84eddd6b4c9410b82b"
+# }
+# print(lambda_handler(event, ""))

@@ -3,7 +3,7 @@ import numpy as np
 import json
 from json import JSONEncoder
 
-PRICE_RANGE = os.environ.get("PRICE_RANGE", 20)
+PRICE_RANGE = int(os.environ.get("PRICE_RANGE", 20))
 
 
 class NumpyArrayEncoder(JSONEncoder):
@@ -61,7 +61,8 @@ def lambda_handler(event, context):
     }
 
 
-event = {"options": [{"exercise_price": 12.32, "transaction_type": "LONG", "close_price": 1.23, "contracts": 1, "type": "CAll"},
-         {"exercise_price": 12.32, "transaction_type": "SHORT", "close_price": 1.23, "contracts": 1, "type": "CAll"}],
-         "strategy": False}
-print(lambda_handler(event, ""))
+# event = {
+#     "options": [{"exercise_price": 12.32, "transaction_type": "LONG", "close_price": 1.23, "contracts": 1, "type": "CAll"},
+#          {"exercise_price": 12.32, "transaction_type": "SHORT", "close_price": 1.23, "contracts": 1, "type": "CAll"}],
+#          "strategy": False}
+# print(lambda_handler(event, ""))

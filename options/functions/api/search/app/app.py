@@ -3,7 +3,7 @@ import json
 import asyncio
 from html import escape
 
-from aws.athena import Athena
+from .aws.athena import Athena
 
 
 REGION = os.environ.get("REGION", "us-east-1")
@@ -247,7 +247,7 @@ mock = [
 
 async def run_queries(event):
     athena = Athena()
-    _input = event["query"]
+    _input = escape(event["query"])
     query = f"""
         SELECT *
         FROM (
