@@ -204,5 +204,5 @@ Resources:
           PRICE_RANGE: 20
     Metadata:
       DockerTag: options-services-payoff
-      DockerContext: functions/services/info
+      DockerContext: functions/services/payoff
       Dockerfile: Dockerfile
