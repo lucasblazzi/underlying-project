@@ -21,6 +21,7 @@ def preprocess_payload(option):
     for t in transaction_types:
         tmp_opt = {
             "exercise_price": option["exercise_price"],
+            "name": option["name"],
             "close_price": option["close_price"],
             "contracts": 1,
             "type": option["type"],
