@@ -139,6 +139,7 @@ Resources:
       Description: Search options based on custom filters
       PackageType: Image
       Role: !Ref LambdaRole
+      Timeout: 30
       Environment:
         Variables:
           REGION: !Ref AWS::Region
@@ -159,6 +160,7 @@ Resources:
       Description: Get options information based on id
       PackageType: Image
       Role: !Ref LambdaRole
+      Timeout: 30
       Environment:
         Variables:
           REGION: !Ref AWS::Region
