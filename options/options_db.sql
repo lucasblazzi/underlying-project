@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS db_underlying;
 USE db_underlying;
 
 CREATE EXTERNAL TABLE `tb_options_series`(
-  `date` date,
+  `date` string,
   `company` string,
   `currency` string,
   `open_price` double,
@@ -14,7 +14,7 @@ CREATE EXTERNAL TABLE `tb_options_series`(
   `quantity` double,
   `volume` double,
   `exercise_price` double,
-  `expiration_date` date,
+  `expiration_date` string,
   `isin_code` string,
   `type` string,
   `id` string,

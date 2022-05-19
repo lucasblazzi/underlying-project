@@ -55,7 +55,7 @@ def lambda_handler(event, context):
     else:
         result = [single_payoff(option, x) for option in event["options"]]
 
-    return json.dumps(result, cls=NumpyArrayEncoder)
+    return json.loads(json.dumps(result, cls=NumpyArrayEncoder))
 
 
 
