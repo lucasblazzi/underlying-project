@@ -46,6 +46,7 @@ async def get_payoff(option):
 
 
 async def handler(event):
+    print(event)
     option_series = pd.DataFrame(await get_option(event)).sort_values("date")
     option = option_series.iloc[-1]
     payoff = await get_payoff(option.to_dict())
