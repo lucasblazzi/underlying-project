@@ -32,7 +32,10 @@ def preprocess_payload(option):
 
 
 async def get_option(option):
-    return pd.read_parquet(f"s3://{SERIES_BUCKET}/name={option['name']}/{option['id']}.snappy.parquet")
+    try:
+        return pd.read_parquet(f"s3://{SERIES_BUCKET}/name={option['name']}/{option['id']}.snappy.parquet")
+    except Exception as e:
+        raise e
 
 
 async def get_payoff(option):
@@ -47,16 +50,21 @@ async def get_payoff(option):
 
 
 async def handler(event):
-    body = json.loads(event["body"])
-    option_series = pd.DataFrame(await get_option(body)).sort_values("date")
-    option = option_series.iloc[-1]
-    payoff = await get_payoff(option.to_dict())
-    result = OptionBuilder(option_series, option, payoff).build
-    return {
-        "statusCode": 200,
-        "body": json.dumps(result)
-    }
-
+    try:
+        body = json.loads(event["body"])
+        option_series = pd.DataFrame(await get_option(body)).sort_values("date")
+        option = option_series.iloc[-1]
+        payoff = await get_payoff(option.to_dict())
+        result = OptionBuilder(option_series, option, payoff).build
+        return {
+            "statusCode": 200,
+            "body": json.dumps(result)
+        }
+    except FileNotFoundError:
+        return {
+            "statusCode": 404,
+            "body": "Option not found!"
+        }
 
 def lambda_handler(event, context):
     loop = asyncio.get_event_loop()

@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: Resources for options project deploy
+
+
+Parameters:
+
+  ApiRole:
+    Type: String
+    Default: arn:aws:iam::182960656850:role/api-role
+
+
+Resources:
+
+  OpenSearchUnderlying:
+    Type: AWS::OpenSearchService::Domain
+    Properties:
+      DomainName: underlying
+      ClusterConfig:
+        InstanceCount: 1
+        ZoneAwarenessEnabled: true
+        InstanceType: t3.small.search
