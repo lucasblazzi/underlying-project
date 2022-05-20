@@ -26,22 +26,34 @@ jobs:
       - name: Install SAM dependencies
         uses: aws-actions/setup-sam@v1
 
-      - name: Build AWS Cloudformation for options
-        id: options-build
-        run: sam package --s3-bucket $bucket --s3-prefix $prefix --region ${{ github.event.inputs.region }} --template-file $template --image-repository $ecr
+      - name: Validate Options template
+        id: validate-template
+        run: sam validate -t $template
         env:
-          bucket: "underlying-deployments"
-          prefix: "OPTIONS"
           template: "options/template.yaml"
-          ecr: ""
 
-      - name: Deploy Market Data AWS
+#      - name: Package Options AWS Cloudformation
+#        id: options-package
+#        run: sam package --s3-bucket $bucket --s3-prefix $prefix --region ${{ github.event.inputs.region }} --template-file $template --image-repository $ecr
+#        env:
+#          bucket: "underlying-deployments"
+#          prefix: "OPTIONS"
+#          template: "options/template.yaml"
+#          ecr: "182960656850.dkr.ecr.us-east-1.amazonaws.com/underlying-options"
+
+      - name: Build Options Service AWS
+        id: options-build
+        run: sam build --template-file $template
+        env:
+          template: "options/template.yaml"
+
+      - name: Deploy Options Service AWS
         id: options-deploy
-        run: sam deploy --no-fail-on-empty-changeset --s3-bucket $bucket --s3-prefix $prefix --template-file $template --stack-name $stack --capabilities $capabilities --region ${{ github.event.inputs.region }} --image-repository $ecr
+        run: sam deploy --no-fail-on-empty-changeset --s3-bucket $bucket --s3-prefix $prefix --stack-name $stack --capabilities $capabilities --region ${{ github.event.inputs.region }} --image-repository $ecr
         env:
           bucket: "underlying-deployments"
           prefix: "OPTIONS"
           stack: "OPTIONS"
           capabilities: "CAPABILITY_IAM"
           template: "options/template.yaml"
-          ecr: ""
+          ecr: "182960656850.dkr.ecr.us-east-1.amazonaws.com/underlying-options"

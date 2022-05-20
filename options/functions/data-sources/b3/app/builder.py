@@ -12,9 +12,10 @@ underlying_cols = ["name_underlying", "company_underlying", "close_price_underly
 
 
 class Builder:
-    def __init__(self, dfs):
+    def __init__(self, dfs, year):
         self.dfs = dfs
         self.names = json.load(open(os.path.join(base_path, "./plans/names.json"), encoding="utf8"))
+        self.year = year
 
     @property
     def architect(self):
@@ -27,13 +28,15 @@ class Builder:
         underlyings = result[(result["folder"] == "acoes")]
         options = result[(result["folder"] == "opcoes")]
         for k, raw_df in options.groupby(["name", "folder", "type", "exercise_price", "expiration_date", "isin_code"]):
-            group_hash = hashlib.md5(str(k).encode()).hexdigest()
+            group_hash = hashlib.md5(str(k + self.year).encode()).hexdigest()
             raw_df["id"] = group_hash
             df = pd.merge(raw_df, underlyings, how="left", on=["isin_code", "date"], suffixes=("", "_underlying"))
             df = df[raw_df.columns.tolist() + underlying_cols]
             df["expiration_time"] = (df["expiration_date"] - df["date"]).dt.days / 365
             df["return_underlying"] = df["close_price_underlying"].pct_change().fillna(0)
             df = self.calculate(df)
+            df["date"] = df["date"].dt.strftime('%Y-%m-%d')
+            df["expiration_date"] = df["expiration_date"].dt.strftime('%Y-%m-%d')
             df.index.name = f"name={k[0]}/{group_hash}"
             test = ("BOV", "VAL", "PET")
             if k[0][0:3] in test:
