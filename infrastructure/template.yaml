@@ -25,3 +25,16 @@ Resources:
         Iops: 0
         VolumeSize: 10
         VolumeType: gp2
+      AccessPolicies:
+        Version: '2012-10-17'
+        Statement:
+          -
+            Effect: 'Allow'
+            Principal:
+              AWS: 'arn:aws:iam::182960656850:user/lucasblazzi'
+            Action: 'es:*'
+            Condition:
+              IpAddress:
+                aws:SourceIp:
+                  - '179.108.21.132'
+            Resource: 'arn:aws:es:us-east-1:182960656850:domain/underlying/*'
