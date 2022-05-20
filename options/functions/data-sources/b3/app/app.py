@@ -49,7 +49,7 @@ async def loader(event):
         crawler = Crawler(url=url, txt_field_length=daily_field_length)
         raw_results.extend(crawler.zip_crawl())
 
-        results = Builder(dfs=raw_results).architect
+        results = Builder(dfs=raw_results, year=year).architect
         await save_data(results)
 
 
