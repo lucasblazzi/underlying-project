@@ -20,3 +20,8 @@ Resources:
         InstanceCount: 2
         ZoneAwarenessEnabled: true
         InstanceType: t3.small.search
+      EBSOptions:
+        EBSEnabled: true
+        Iops: 0
+        VolumeSize: 10
+        VolumeType: gp2
