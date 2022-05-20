@@ -45,5 +45,5 @@ jobs:
           template: "frontend/template.yaml"
 
       - name: Build Frontend App
-        run: cd frontend && npm install && npm run deploy
+        run: cd frontend && npm install --legacy-peer-deps && npm run deploy
 

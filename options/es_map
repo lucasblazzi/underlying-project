@@ -1,0 +1,20 @@
+PUT /options
+{
+    "settings" : {
+        "number_of_shards" : 2,
+        "number_of_replicas" : 1
+    },
+    "mappings" : {
+        "properties" : {
+            "date": { "type" : "date" },
+            "id": { "type" : "text" },
+            "name": { "type" : "search_as_you_type" },
+            "name_underlying": { "type" : "search_as_you_type" },
+            "close_price": { "type" : "float" },
+            "exercise_price": { "type" : "float" },
+            "expiration_date": { "type" : "date" },
+            "type": { "type" : "text" }
+        }
+    }
+}
+

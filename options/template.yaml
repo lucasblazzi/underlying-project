@@ -67,7 +67,7 @@ Resources:
         AllowOrigins: ["*"]
         AllowMethods: ["GET", "POST", "OPTIONS"]
         AllowHeaders: ["Authorization"]
-        ExposeHeaders: ["Access-Control-Allow-Origin"]
+#        ExposeHeaders: ["Access-Control-Allow-Origin"]
 
   SearchRoute:
     Type: AWS::ApiGatewayV2::Route
