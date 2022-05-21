@@ -3,12 +3,16 @@ import json
 import asyncio
 from html import escape
 
-from .aws.athena import Athena
-from .aws.es import ES
+from aws.athena import Athena
+
+from elasticsearch import Elasticsearch
 
 REGION = os.environ.get("REGION", "us-east-1")
 ATHENA_DB = os.environ.get("ATHENA_DB", "db_underlying")
 OPTIONS_TABLE = os.environ.get("OPTIONS_TABLE", "tb_options_series")
+ES_HOST = os.environ.get("ES_HOST", "https://search-underlying-zpfrcbjukmsi3otoeaohoemdu4.us-east-1.es.amazonaws.com")
+
+es = Elasticsearch(f"{ES_HOST}:443")
 
 
 async def run_queries(event):
@@ -43,16 +47,14 @@ def get_query(query):
     }
 
 
-async def query_options(user_input):
-    async with ES(index="underlying_options") as client:
-        resp = await client.query(query=get_query(user_input))
-        print([r["_source"] for r in resp["hits"]["hits"]])
-        return [r["_source"] for r in resp["hits"]["hits"]]
+def query_options(user_input):
+    resp = es.search(body=get_query(user_input), index="underlying_options", filter_path=["hits.hits._source"])
+    return [r["_source"] for r in resp["hits"]["hits"]]
 
 
 async def handler(event):
     # results = await run_queries(event)
-    results = await query_options(event["query"])
+    results = query_options(event["query"])
     return {
         "statusCode": 200,
         "body": json.dumps(results)
@@ -62,3 +64,6 @@ async def handler(event):
 def lambda_handler(event, context):
     loop = asyncio.get_event_loop()
     return loop.run_until_complete(handler(event))
+
+
+print(lambda_handler({"query": "IBOV"}, ""))

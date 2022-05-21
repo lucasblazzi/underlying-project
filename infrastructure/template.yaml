@@ -40,6 +40,7 @@ Resources:
               IpAddress:
                 aws:SourceIp:
                   - '179.108.21.132'
+                  - '152.249.191.201'
           - Effect: 'Allow'
             Principal:
               AWS: 'arn:aws:iam::182960656850:role/lambda-role'
