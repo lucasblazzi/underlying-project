@@ -1,8 +1,15 @@
 import os
+import boto3
 from elasticsearch import AsyncElasticsearch
 from elasticsearch.helpers import async_bulk
+from requests_aws4auth import AWS4Auth
 
 ES_HOST = os.environ.get("ES_HOST", "https://search-underlying-zpfrcbjukmsi3otoeaohoemdu4.us-east-1.es.amazonaws.com")
+REGION = os.environ.get("REGION", "us-east-1")
+
+credentials = boto3.Session().get_credentials()
+auth = AWS4Auth(credentials.access_key, credentials.secret_key,
+                REGION, "es", session_token=credentials.token)
 
 
 class ES:
@@ -11,7 +18,7 @@ class ES:
         self.index = index
 
     async def __aenter__(self):
-        self.session = AsyncElasticsearch(ES_HOST, port=443)
+        self.session = AsyncElasticsearch(ES_HOST, port=443, http_auth=auth)
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
