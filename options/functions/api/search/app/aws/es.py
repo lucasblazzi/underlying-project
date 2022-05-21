@@ -22,7 +22,7 @@ class ES:
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
-        await self.session.close()
+       pass
 
     async def bulk(self, data):
         parsed = [{"_index": self.index, "doc": d} for d in data]
