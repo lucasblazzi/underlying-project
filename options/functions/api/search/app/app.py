@@ -1,18 +1,31 @@
 import os
+import boto3
 import json
 import asyncio
 from html import escape
 
 from .aws.athena import Athena
 
-from elasticsearch import Elasticsearch
+from elasticsearch import Elasticsearch, RequestsHttpConnection
+from requests_aws4auth import AWS4Auth
+
 
 REGION = os.environ.get("REGION", "us-east-1")
 ATHENA_DB = os.environ.get("ATHENA_DB", "db_underlying")
 OPTIONS_TABLE = os.environ.get("OPTIONS_TABLE", "tb_options_series")
 ES_HOST = os.environ.get("ES_HOST", "https://search-underlying-zpfrcbjukmsi3otoeaohoemdu4.us-east-1.es.amazonaws.com")
 
-es = Elasticsearch(f"{ES_HOST}:443")
+
+credentials = boto3.Session().get_credentials()
+auth = AWS4Auth(credentials.access_key, credentials.secret_key,
+                REGION, "es", session_token=credentials.token)
+es = Elasticsearch(
+    f"{ES_HOST}:443",
+    http_auth=auth,
+    use_ssl=True,
+    verify_certs=True,
+    connection_class=RequestsHttpConnection
+)
 
 
 async def run_queries(event):
