@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
-Description: Resources for options project deploy
+Description: General infrastructure resources for undelying project
 
 
 Parameters:
@@ -16,6 +16,7 @@ Resources:
     Type: AWS::OpenSearchService::Domain
     Properties:
       DomainName: underlying
+      EngineVersion: Elasticsearch_7.7
       ClusterConfig:
         InstanceCount: 2
         ZoneAwarenessEnabled: true
@@ -39,3 +40,10 @@ Resources:
               IpAddress:
                 aws:SourceIp:
                   - '179.108.21.132'
+                  - '152.249.191.201'
+          - Effect: 'Allow'
+            Principal:
+              AWS: 'arn:aws:iam::182960656850:role/lambda-role'
+            Action:
+              - 'es:*'
+            Resource: 'arn:aws:es:us-east-1:182960656850:domain/underlying/*'

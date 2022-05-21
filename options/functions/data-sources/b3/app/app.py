@@ -1,8 +1,10 @@
 import os
+import json
 import asyncio
 from io import BytesIO
 
 from cryptography.fernet import Fernet
+from elasticsearch import Elasticsearch
 
 from crawler import Crawler
 from builder import Builder
@@ -18,7 +20,11 @@ daily_data = b"gAAAAABhvn3zDitlQLagTDCxbMMFHStNqnxCnAq_CS37Yqnm1KADWdvb_BM3iLaD1
              b"htXFtUXa41m6-PuyRGDl8jHk7EE3i6VSOJ7Sn4ewZBjdz9VpltLvrA1kfg0kR9I9yg=="
 
 
+ES_ENDPOINT = "https://search-underlying-zpfrcbjukmsi3otoeaohoemdu4.us-east-1.es.amazonaws.com"
 BUCKET_NAME = os.environ.get("BUCKET", "underlying-options-series")
+
+es_cols = ["date", "id", "name", "name_underlying", "close_price", "exercise_price", "expiration_date", "type",
+           "isin_code"]
 
 
 def decrypt_url(url):
@@ -26,8 +32,25 @@ def decrypt_url(url):
     return f.decrypt(url).decode()
 
 
+def save_es(options):
+    payload = list()
+    es = Elasticsearch(
+        hosts=[f"{ES_ENDPOINT}:443"],
+        http_compress=True,
+        use_ssl=True,
+        verify_certs=True
+    )
+    for option in options:
+        print(f"ES SAVE {option['id']}")
+        payload.append({"index": {"_id": option["id"]}})
+        payload.append(option)
+    body = "\n".join([json.dumps(p) for p in payload])
+    es.bulk(body=body, index="underlying_options", doc_type="_doc")
+
+
 async def save_data(dfs):
     tasks = list()
+    register = list()
     async with S3() as s3:
         for df in dfs:
             print(f"[SAVE] {df.index.name}")
@@ -35,11 +58,14 @@ async def save_data(dfs):
                 buffer = BytesIO()
                 df = df.sort_values("date")
                 df.to_parquet(buffer, index=False)
+                option = df.iloc[-1][es_cols].to_dict()
+                register.append(option)
                 tasks.append(s3.insert_file(buffer.getvalue(), f"s3://{BUCKET_NAME}/{df.index.name}.snappy.parquet"))
             except Exception as e:
                 print(f"ERROR ON {df.index.name}")
                 continue
         await asyncio.gather(*tasks)
+    return register
 
 
 async def loader(event):
@@ -50,7 +76,8 @@ async def loader(event):
         raw_results.extend(crawler.zip_crawl())
 
         results = Builder(dfs=raw_results, year=year).architect
-        await save_data(results)
+        options = await save_data(results)
+        save_es(options)
 
 
 def lambda_handler(event, context):
