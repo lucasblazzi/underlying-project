@@ -59,4 +59,29 @@ def lambda_handler(event, context):
     loop.close()
 
 
-lambda_handler({"start": 2022, "end": 2022}, "")
+# lambda_handler({"start": 2022, "end": 2022}, "")
+
+es_cols = ["date", "id", "name", "name_underlying", "close_price", "exercise_price", "expiration_date", "type",
+           "isin_code"]
+def tmp_es():
+    import pandas as pd
+    from elasticsearch import Elasticsearch
+    import json
+    ES_ENDPOINT = "https://search-underlying-zpfrcbjukmsi3otoeaohoemdu4.us-east-1.es.amazonaws.com"
+    #Elasticsearch(f"{ES_ENDPOINT}:9200/")
+    es = Elasticsearch(
+        hosts=[f"{ES_ENDPOINT}:443"],
+        http_compress=True,
+        use_ssl=True,
+        verify_certs=True
+    )
+    payload = list()
+    tmp = pd.read_parquet("s3://underlying-options-series/name=BOVAA129/33572e924a5b2c2da7aa9c79873b1ded.snappy.parquet")
+    x = tmp.iloc[-1][es_cols].to_dict()
+    payload.append({"index": {"_id": x["id"]}})
+    payload.append(x)
+    body = "\n".join([json.dumps(p) for p in payload])
+    es.bulk(body=body, index="underlying_options", doc_type="_doc")
+
+
+tmp_es()

@@ -16,6 +16,7 @@ Resources:
     Type: AWS::OpenSearchService::Domain
     Properties:
       DomainName: underlying
+      EngineVersion: Elasticsearch_7.7
       ClusterConfig:
         InstanceCount: 2
         ZoneAwarenessEnabled: true
