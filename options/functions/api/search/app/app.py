@@ -46,6 +46,7 @@ def get_query(query):
 async def query_options(user_input):
     async with ES(index="underlying_options") as client:
         resp = await client.query(query=get_query(user_input))
+        print([r["_source"] for r in resp["hits"]["hits"]])
         return [r["_source"] for r in resp["hits"]["hits"]]
 
 
