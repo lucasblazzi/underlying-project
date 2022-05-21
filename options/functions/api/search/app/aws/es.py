@@ -1,6 +1,6 @@
 import os
 import boto3
-from elasticsearch import AsyncElasticsearch
+from elasticsearch import AsyncElasticsearch, RequestsHttpConnection
 from elasticsearch.helpers import async_bulk
 from requests_aws4auth import AWS4Auth
 
@@ -18,7 +18,7 @@ class ES:
         self.index = index
 
     async def __aenter__(self):
-        self.session = AsyncElasticsearch(ES_HOST, port=443, http_auth=auth)
+        self.session = AsyncElasticsearch(ES_HOST, port=443, http_auth=auth, connection_class=RequestsHttpConnection)
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
