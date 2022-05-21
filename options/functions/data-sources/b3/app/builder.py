@@ -27,8 +27,11 @@ class Builder:
 
         underlyings = result[(result["folder"] == "acoes")]
         options = result[(result["folder"] == "opcoes")]
-        for k, raw_df in options.groupby(["name", "folder", "type", "exercise_price", "expiration_date", "isin_code"]):
-            group_hash = hashlib.md5(str(k + self.year).encode()).hexdigest()
+        sample_options = options[options["name"].str.contains("BOV|VAL|PET")==True]
+        for k, raw_df in sample_options.groupby(["name", "folder", "type", "exercise_price", "expiration_date", "isin_code"]):
+            print(k[0])
+            hash_obj = k + (str(self.year), )
+            group_hash = hashlib.md5(str(hash_obj).encode()).hexdigest()
             raw_df["id"] = group_hash
             df = pd.merge(raw_df, underlyings, how="left", on=["isin_code", "date"], suffixes=("", "_underlying"))
             df = df[raw_df.columns.tolist() + underlying_cols]
@@ -38,10 +41,7 @@ class Builder:
             df["date"] = df["date"].dt.strftime('%Y-%m-%d')
             df["expiration_date"] = df["expiration_date"].dt.strftime('%Y-%m-%d')
             df.index.name = f"name={k[0]}/{group_hash}"
-            test = ("BOV", "VAL", "PET")
-            if k[0][0:3] in test:
-                print(f"[INFO] Processing {k[0]}")
-                results.append(df)
+            results.append(df)
         return results
 
     @staticmethod
