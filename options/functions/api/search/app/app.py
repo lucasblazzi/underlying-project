@@ -3,7 +3,7 @@ import json
 import asyncio
 from html import escape
 
-from aws.athena import Athena
+from .aws.athena import Athena
 
 from elasticsearch import Elasticsearch
 
@@ -48,7 +48,7 @@ def get_query(query):
 
 
 def query_options(user_input):
-    resp = es.search(body=get_query(user_input), index="underlying_options", filter_path=["hits.hits._source"])
+    resp = es.search(body=get_query(user_input), index="underlying_options")
     return [r["_source"] for r in resp["hits"]["hits"]]
 
 
@@ -64,6 +64,3 @@ async def handler(event):
 def lambda_handler(event, context):
     loop = asyncio.get_event_loop()
     return loop.run_until_complete(handler(event))
-
-
-print(lambda_handler({"query": "IBOV"}, ""))
