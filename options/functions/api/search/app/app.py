@@ -67,7 +67,8 @@ def query_options(user_input):
 
 async def handler(event):
     # results = await run_queries(event)
-    results = query_options(event["query"])
+    body = json.loads(event["body"])
+    results = query_options(body["query"])
     return {
         "statusCode": 200,
         "body": json.dumps(results)
