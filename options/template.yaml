@@ -65,9 +65,9 @@ Resources:
       Target: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APIHealthLambda.Arn}/invocations
       CorsConfiguration:
         AllowOrigins: ["*"]
-        AllowMethods: ["GET", "POST", "OPTIONS"]
+        AllowMethods: ["*"]
         AllowHeaders: ["Authorization"]
-#        ExposeHeaders: ["Access-Control-Allow-Origin"]
+        ExposeHeaders: ["Access-Control-Allow-Origin"]
 
   SearchRoute:
     Type: AWS::ApiGatewayV2::Route
