@@ -1,10 +1,15 @@
 import Loading from "components/CommonForBoth/Loading";
+import { post } from "helpers/api_helper";
 import React, { Component } from "react";
 import MetaTags from "react-meta-tags";
 import { Row, Col, Card, CardBody, CardTitle, Container, } from "reactstrap";
 import GreekTable from "./GreekTable";
 import PriceChart from "./PriceChart";
 import PriceTable from "./PriceTable";
+import MarketTable from "./MarketTable";
+import OptionsClose from "./OptionsClose";
+import OptionsLong from "./OptionsLong"
+import OptsShortChart from "./OptsShortChart";
 
 class Opts extends Component {
   constructor(props) {
@@ -17,24 +22,23 @@ class Opts extends Component {
   async componentDidMount() {
     const self = this;
 
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
     var raw = JSON.stringify({
-      "name": "PETRF268",
-      "id": "f794464f071ec41e48f16941563b3b0c"
+      "name": "IBOVA100",
+      "id": "ecd11825897a643f67c3d34c3569ee5b"
     });
 
     var requestOptions = {
       method: 'POST',
-      headers: myHeaders,
       body: raw,
       redirect: 'follow'
     };
 
     fetch("https://lgbxzn9a97.execute-api.us-east-1.amazonaws.com/v1/info", requestOptions)
       .then(response => response.json())
-      .then(result => self.setState({ data: result }))
+      .then(result => {
+        self.setState({ data: result });
+        //console.log(result);
+      })
       .catch(error => console.log('error', error));
 
   }
@@ -44,9 +48,18 @@ class Opts extends Component {
     let loading = <Loading />
 
     //Condicional de envio de dados para o gráfico
-    let priceChartData = this.state.data.greeks == null
-      ? loading
-      : <PriceChart data={this.state.data.payoff.strategy} />
+    let optionCloseData = this.state.data.option_close_series == null
+    ? loading
+    : <OptionsClose data={this.state.data.option_close_series} />
+
+    let optionsLongData = this.state.data.payoff == null
+    ? loading
+    : <OptionsLong data ={this.state.data.payoff}/>
+
+     let shortChart = this.state.data.payoff == null
+    ? loading
+    : <OptsShortChart data={this.state.data.payoff[0]}/>
+        
     return (
       <React.Fragment>
         <div className="page-content">
@@ -60,15 +73,28 @@ class Opts extends Component {
                 <Card>
                   <CardBody>
                     <div>
+                      <CardTitle className="mb-1">
+                        {this.state.data.name}
+                      </CardTitle>
                       <Row>
-                        <GreekTable data={this.state.data.greeks} id={this.state.data.id} />
+                        <GreekTable data={this.state.data.greeks} name={this.state.data.name} />
                       </Row>
                       <Row>
-                        {priceChartData}
+                        {shortChart}
+                      </Row>
+                      <Row>
+                        {optionsLongData}
                       </Row>
                       <Row>
                         <PriceTable data={this.state.data.price} />
                       </Row>
+                      <Row>
+                        <MarketTable data={this.state.data.market} />
+                      </Row>
+                      <Row>
+                        {optionCloseData} 
+                      </Row>
+
                     </div>
                   </CardBody>
                 </Card>

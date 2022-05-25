@@ -22,7 +22,7 @@ class GreekTable extends Component {
             >
                 <Thead>
                     <Tr>
-                        <Th>Greeks</Th>
+                        <Th>Greeks:</Th>
                         {this.props.data.map((e, index) => (
                             <Th key={index}>{e.name}</Th>
                         ))}
@@ -30,7 +30,7 @@ class GreekTable extends Component {
                 </Thead>
                 <Tbody>
                     <Tr>
-                        <Td>Valores</Td>
+                        <Td>Valores:</Td>
                         {this.props.data.map((e, index) => (
                             <Th key={index}>{e.value}</Th>
                         ))}
@@ -48,7 +48,7 @@ class GreekTable extends Component {
                     <Card>
                         <CardBody>
                             <div className="clearfix">
-                                <h4 className="card-title mb-4">{this.props.id}</h4>
+                                <h4 className="card-title mb-4">Tabela de Greeks</h4>
                             </div>
                             <Row>
                                 <Col lg="12">
@@ -72,7 +72,7 @@ class GreekTable extends Component {
 
 GreekTable.propTypes = {
     data: PropTypes.array,
-    id: PropTypes.string
+    name: PropTypes.string
 }
 
 export default GreekTable;
