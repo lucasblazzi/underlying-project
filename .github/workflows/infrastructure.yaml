@@ -1,4 +1,4 @@
-name: Deploy Option CloudFormation Stacks
+name: Deploy Infrastructure CloudFormation Stacks
 
 on:
   workflow_dispatch:

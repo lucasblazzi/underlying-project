@@ -18,7 +18,7 @@ class S3:
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
-        await self.session.close()
+        print("Process ended")
 
     async def get_file(self, path):
         match = s3_pattern.match(path)
