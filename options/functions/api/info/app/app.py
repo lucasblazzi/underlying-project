@@ -51,7 +51,6 @@ async def get_payoff(option):
 
 async def handler(event):
     try:
-        print(event)
         body = json.loads(event["body"])
         option_series = pd.DataFrame(await get_option(body)).sort_values("date")
         option = option_series.iloc[-1]
@@ -66,6 +65,7 @@ async def handler(event):
             "statusCode": 404,
             "body": "Option not found!"
         }
+
 
 def lambda_handler(event, context):
     loop = asyncio.get_event_loop()
