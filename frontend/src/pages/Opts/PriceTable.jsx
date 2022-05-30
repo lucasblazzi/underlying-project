@@ -23,16 +23,16 @@ class PriceTable extends Component {
                 <Thead>
                     <Tr>
                         <Th></Th>
-                        <Th>Open price</Th>
-                        <Th>Max price</Th>
-                        <Th>Min price</Th>
-                        <Th>Average price</Th>
-                        <Th>Close price</Th>
-                        <Th>Best buy price</Th>
-                        <Th>Best sell price</Th>
-                        <Th>Transactions</Th>
-                        <Th>Quantity</Th>
-                        <Th>Volume</Th>
+                        <Th>Preço de abertura</Th>
+                        <Th>Preço máximo</Th>
+                        <Th>Preço mínimo</Th>
+                        <Th>Preço médio</Th>
+                        <Th>Preço de fechamento</Th>
+                        <Th>Melhor preço de compra</Th>
+                        <Th>Melhor preço de venda</Th>
+                        <Th>Nº de transações</Th>
+                        <Th>Quantidade de papéis negociados</Th>
+                        <Th>Volume de papéis negociados</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
@@ -56,7 +56,7 @@ class PriceTable extends Component {
                     <Card>
                         <CardBody>
                             <div className="clearfix">
-                                <h4 className="card-title mb-4">Tabela de preços</h4>
+                                <h4 className="card-title mb-4">Informações de mercado</h4>
                             </div>
                             <Row>
                                 <Col lg="12">

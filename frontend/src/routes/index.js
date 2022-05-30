@@ -17,6 +17,8 @@ import requisicoes from "pages/duvidas"
 import duvidas from "pages/duvidas"
 import Pages404 from "pages/pages-404"
 import Opts from "pages/Opts"
+import Search from "pages/Search"
+import SearchResults from "pages/SearchResults"
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -29,6 +31,9 @@ const authProtectedRoutes = [
   { path: "/duvidas", component: duvidas },
 
   { path: "/opts", component: Opts },
+
+  { path: "/search", component: Search },
+  { path: "/search-result", component: SearchResults },
 
   { path: "/", component: Dashboard },
 
