@@ -23,7 +23,7 @@ class OptionBuilder:
         self.result = {col: self.option[col] for col in base_cols}
 
     def build_greeks(self):
-        greek_cols = ["gamma", "delta", "theta", "rho", "gamma", "vega"]
+        greek_cols = ["gamma", "delta", "theta", "rho", "vega"]
         self.result["greeks"] = [{"name": greek, "value": self.option[greek]} for greek in greek_cols]
 
     def build_market(self):

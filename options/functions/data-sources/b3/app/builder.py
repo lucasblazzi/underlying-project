@@ -27,8 +27,8 @@ class Builder:
 
         underlyings = result[(result["folder"] == "acoes")]
         options = result[(result["folder"] == "opcoes")]
-        sample_options = options[options["name"].str.contains("BOV|VAL|PET")==True]
-        for k, raw_df in sample_options.groupby(["name", "folder", "type", "exercise_price", "expiration_date", "isin_code"]):
+        # sample_options = options[options["name"].str.contains("BOV|VAL|PET")==True]
+        for k, raw_df in options.groupby(["name", "folder", "type", "exercise_price", "expiration_date", "isin_code"]):
             print(k[0])
             hash_obj = k + (str(self.year), )
             group_hash = hashlib.md5(str(hash_obj).encode()).hexdigest()
