@@ -44,8 +44,13 @@ def save_es(options):
         print(f"ES SAVE {option['id']}")
         payload.append({"index": {"_id": option["id"]}})
         payload.append(option)
-    body = "\n".join([json.dumps(p) for p in payload])
-    es.bulk(body=body, index="underlying_options", doc_type="_doc")
+
+    n = 100
+    chunks = [payload[i:i + n] for i in range(0, len(payload), n)]
+    for chunk in chunks:
+        print("SAVING CHUNK - ES")
+        body = "\n".join([json.dumps(p) for p in chunk])
+        es.bulk(body=body, index="underlying_options", doc_type="_doc")
 
 
 async def save_data(dfs):
@@ -64,7 +69,11 @@ async def save_data(dfs):
             except Exception as e:
                 print(f"ERROR ON {df.index.name}")
                 continue
-        await asyncio.gather(*tasks)
+        n = 100
+        chunks = [tasks[i:i + n] for i in range(0, len(tasks), n)]
+        for chunk in chunks:
+            print("SAVING CHUNK - S3")
+            await asyncio.gather(*chunk)
     return register
 
 
