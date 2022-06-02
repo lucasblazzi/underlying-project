@@ -97,23 +97,23 @@ const Navbar = props => {
                     to="/dashboard"
                   >
                     <i className="bx bx-home-circle me-2"></i>
-                    {props.t("Nova Aba")} {props.menuOpen}
+                    {props.t("Opções")} {props.menuOpen}
                     <div className="arrow-down"></div>
                   </Link>
                   <div
                     className={classname("dropdown-menu", { show: dashboard })}
                   >
-                    <Link to="/dashboard" className="dropdown-item">
-                      {props.t("Default")}
-                    </Link>
-                    <Link to="new-page" className="dropdown-item">
-                      {props.t("Página Exemplo")}
-                    </Link>
-                    <Link to="duvidas" className="dropdown-item">
-                      {props.t("Dúvidas")}
-                    </Link>
                     <Link to="search" className="dropdown-item">
                       {props.t("Busca")}
+                    </Link>
+                    <Link to="/dashboard" className="dropdown-item">
+                      {props.t("Grade de Opções")}
+                    </Link>
+                    <Link to="new-page" className="dropdown-item">
+                      {props.t("Estratégias")}
+                    </Link>
+                    <Link to="duvidas" className="dropdown-item">
+                      {props.t("Glossário")}
                     </Link>
                   </div>
                 </li>

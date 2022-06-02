@@ -53,7 +53,7 @@ class SearchResults extends Component {
                   <td>
                     <div>
                       <h5 className="font-size-14 mb-1">{element.name} | {element.name_underlying}</h5>
-                      <p className="text-muted mb-0">Data: {element.date} | Validade: {element.expiration_date}</p>
+                      <p className="text-muted mb-0">Data: {element.date} | Vencimento: {element.expiration_date}</p>
                     </div>
                   </td>
 

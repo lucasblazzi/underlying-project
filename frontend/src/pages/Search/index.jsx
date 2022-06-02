@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import MetaTags from "react-meta-tags";
-import { Row, Col, Card, CardBody, CardImg, Container, Input, Button } from "reactstrap";
+import {Row, Col, Card, CardBody, CardImg, Container, Input, Button, Table} from "reactstrap";
 import logo from "../../assets/images/logo-underlying.png";
 import { Link } from "react-router-dom";
 
@@ -9,22 +9,44 @@ class Search extends Component {
     super(props);
     this.state = {
       busca: "",
+      loading: false,
+      result: []
+    }
+    this.timeout = 0;
+  }
+
+  search(requestOptions) {
+      this.setState({loading: true})
+      fetch("https://lgbxzn9a97.execute-api.us-east-1.amazonaws.com/v1/search", requestOptions)
+          .then(response => response.json())
+          .then(result => {
+            console.log(result);
+            this.setState({result: result, loading: false});
+          })
+          .catch(error => console.log('error', error));
     }
 
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.submit = this.submit.bind(this);
-  }
+  onChangeHandler(e) {
+    var requestOptions = {
+      method: 'POST',
+      body: JSON.stringify({
+        "query": e.target.value
+      }),
+      redirect: 'follow'
+    };
+    if(this.timeout) clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
+      this.search(requestOptions);
+      this.setState({ busca: e.target.value });
+    }, 700);
+  };
 
-  handleInputChange(event) {
-    const value = event.target.value;
-
-    this.setState({
-      busca: value,
-    });
-  }
-
-  submit() {
-    console.log(this.state.busca);
+  renderOptions(){
+    let result = "There's no movies";
+    if (this.state.result) {
+      console.log(this.state.result);
+    }
+    return result;
   }
 
   render() {
@@ -47,22 +69,56 @@ class Search extends Component {
                       type="text"
                       id="busca"
                       required
-                      onChange={(e) => this.handleInputChange(e)}
+                      onChange={(e) => this.onChangeHandler(e)}
                     />
-                  </Col>
-                  <Col xl={2} style={{ "textAlign": "center" }}>
-                    <Link to={{
-                      pathname: "../search-result",
-                      state: { busca: this.state.busca }
-                    }} >
-                      <Button color="primary" onClick={(e) => this.submit()}>
-                        <i className='bx bx-search font-size-16 align-middle'></i>{" "}
-                        Pesquisar
-                      </Button>
-                    </Link>
                   </Col>
                 </Row>
               </Col>
+              <Row style={{ "justifyContent": "center" }}>
+                  <div className="table-responsive">
+                    <Table className="table align-middle table-nowrap">
+                        <tbody>
+                        {this.state.result.map((element, index) => (
+                            <tr key={index}>
+                                <td>
+                                    <div>
+                                        <h5 className="font-size-14 mb-1">{element.name} | {element.name_underlying}</h5>
+                                        <p className="text-muted mb-0">Data: {element.date} |
+                                            Vencimento: {element.expiration_date}</p>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div className="text-end">
+                                        <h5 className="font-size-14 mb-0">{element.type}</h5>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div className="text-end">
+                                        <h5 className="font-size-14 text-muted mb-0">
+                                            Preço de fechamento: {element.close_price} | Preço de
+                                            exercício: {element.exercise_price}
+                                        </h5>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div className="text-end">
+                                        <h5 className="font-size-20 mb-0">
+                                            <Link to={{pathname: "../opts", state: {name: element.name, id: element.id}}}
+                                                  style={{"border": "none"}}>
+                                                <i className='bx bx-right-arrow-circle'></i>
+                                            </Link>
+                                        </h5>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </Table>
+                  </div>
+                </Row>
             </Row>
           </Container>
         </div>

@@ -82,7 +82,6 @@ class Opts extends Component {
             <title>Opções</title>
           </MetaTags>
           <Container fluid>
-            <h4>Opção</h4>
             <Row>
               <Col>
                 <Card>

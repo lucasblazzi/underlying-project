@@ -51,7 +51,7 @@ class OptionsClose extends Component {
                         <Td>{this.props.info.currency}</Td>
                     </Tr>
                     <Tr>
-                        <Td>Validade</Td>
+                        <Td>Vencimento</Td>
                         <Td>{this.props.info.expiration_date}</Td>
                     </Tr>
                     <Tr>
@@ -59,7 +59,7 @@ class OptionsClose extends Component {
                         <Td>{this.props.info.name_underlying}</Td>
                     </Tr>
                     <Tr>
-                        <Td>Validade (em anos)</Td>
+                        <Td>Vencimento (em anos)</Td>
                         <Td>{this.props.info.expiration_time}</Td>
                     </Tr>
                 </Tbody>
