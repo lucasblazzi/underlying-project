@@ -23,8 +23,8 @@ daily_data = b"gAAAAABhvn3zDitlQLagTDCxbMMFHStNqnxCnAq_CS37Yqnm1KADWdvb_BM3iLaD1
 ES_ENDPOINT = "https://search-underlying-zpfrcbjukmsi3otoeaohoemdu4.us-east-1.es.amazonaws.com"
 BUCKET_NAME = os.environ.get("BUCKET", "underlying-options-series")
 
-es_cols = ["date", "id", "name", "name_underlying", "close_price", "exercise_price", "expiration_date", "type",
-           "isin_code"]
+es_cols = ["date", "id", "name", "name_underlying", "company_underlying", "close_price",
+           "exercise_price", "expiration_date", "type", "isin_code"]
 
 
 def decrypt_url(url):
