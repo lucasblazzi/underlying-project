@@ -10,6 +10,7 @@ PUT /underlying_options
             "id": { "type" : "text" },
             "name": { "type" : "search_as_you_type" },
             "name_underlying": { "type" : "search_as_you_type" },
+            "company_underlying": { "type" : "search_as_you_type" },
             "close_price": { "type" : "float" },
             "exercise_price": { "type" : "float" },
             "expiration_date": { "type" : "date" },
