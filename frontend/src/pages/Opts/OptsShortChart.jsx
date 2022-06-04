@@ -46,27 +46,27 @@ class OptsShortChart extends Component {
                 </Thead>
                 <Tbody>
                     <Tr>
-                        <Td>Preço de exercício</Td>
+                        <Td><b>Preço de exercício</b></Td>
                         <Td>{this.props.data.exercise_price}</Td>
                     </Tr>
                     <Tr>
-                        <Td>Nome</Td>
+                        <Td><b>Nome</b></Td>
                         <Td>{this.props.data.name}</Td>
                     </Tr>
                     <Tr>
-                        <Td>Preço de fechamento</Td>
+                        <Td><b>Preço de fechamento</b></Td>
                         <Td>{this.props.data.close_price}</Td>
                     </Tr>
                     <Tr>
-                        <Td>Número de papéis</Td>
+                        <Td><b>Número de papéis</b></Td>
                         <Td>{this.props.data.contracts}</Td>
                     </Tr>
                     <Tr>
-                        <Td>Tipo da opção</Td>
+                        <Td><b>Tipo da opção</b></Td>
                         <Td>{this.props.data.type}</Td>
                     </Tr>
                     <Tr>
-                        <Td>Tipo da transação</Td>
+                        <Td><b>Tipo da transação</b></Td>
                         <Td>{this.props.data.transaction_type}</Td>
                     </Tr>
                 </Tbody>

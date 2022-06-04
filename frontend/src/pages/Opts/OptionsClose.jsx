@@ -35,31 +35,31 @@ class OptionsClose extends Component {
                 </Thead>
                 <Tbody>
                     <Tr>
-                        <Td>Nome</Td>
+                        <Td><b>Nome</b></Td>
                         <Td>{this.props.info.name}</Td>
                     </Tr>
                     <Tr>
-                        <Td>Tipo</Td>
+                        <Td><b>Tipo</b></Td>
                         <Td>{this.props.info.type}</Td>
                     </Tr>
                     <Tr>
-                        <Td>Preço de exercício</Td>
+                        <Td><b>Preço de exercício</b></Td>
                         <Td>{this.props.info.exercise_price}</Td>
                     </Tr>
                     <Tr>
-                        <Td>Moeda</Td>
+                        <Td><b>Moeda</b></Td>
                         <Td>{this.props.info.currency}</Td>
                     </Tr>
                     <Tr>
-                        <Td>Vencimento</Td>
+                        <Td><b>Vencimento</b></Td>
                         <Td>{this.props.info.expiration_date}</Td>
                     </Tr>
                     <Tr>
-                        <Td>Ativo base</Td>
+                        <Td><b>Ativo base</b></Td>
                         <Td>{this.props.info.name_underlying}</Td>
                     </Tr>
                     <Tr>
-                        <Td>Vencimento (em anos)</Td>
+                        <Td><b>Vencimento (em anos)</b></Td>
                         <Td>{this.props.info.expiration_time}</Td>
                     </Tr>
                 </Tbody>

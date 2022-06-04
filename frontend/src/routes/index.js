@@ -13,12 +13,11 @@ import ForgetPwd from "../pages/Authentication/ForgetPassword"
 // Dashboard
 import Dashboard from "../pages/Dashboard/index"
 import newPage from "pages/newPage"
-import requisicoes from "pages/duvidas"
 import duvidas from "pages/duvidas"
 import Pages404 from "pages/pages-404"
 import Opts from "pages/Opts"
 import Search from "pages/Search"
-import SearchResults from "pages/SearchResults"
+import PagesComingsoon from "components/pages-comingsoon"
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -33,8 +32,8 @@ const authProtectedRoutes = [
   { path: "/opts", component: Opts },
 
   { path: "/search", component: Search },
-  { path: "/search-result", component: SearchResults },
 
+  { path:"/coming-soon", component: PagesComingsoon},
   { path: "/", component: Dashboard },
 
   // this route should be at the end of all other routes

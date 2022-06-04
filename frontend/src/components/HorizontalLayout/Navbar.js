@@ -13,24 +13,6 @@ const Navbar = props => {
 
   const [dashboard, setdashboard] = useState(false)
   const [ui, setui] = useState(false)
-  const [app, setapp] = useState(false)
-  const [email, setemail] = useState(false)
-  const [ecommerce, setecommerce] = useState(false)
-  const [crypto, setcrypto] = useState(false)
-  const [project, setproject] = useState(false)
-  const [task, settask] = useState(false)
-  const [contact, setcontact] = useState(false)
-  const [blog, setBlog] = useState(false)
-  const [component, setcomponent] = useState(false)
-  const [form, setform] = useState(false)
-  const [table, settable] = useState(false)
-  const [chart, setchart] = useState(false)
-  const [icon, seticon] = useState(false)
-  const [map, setmap] = useState(false)
-  const [extra, setextra] = useState(false)
-  const [invoice, setinvoice] = useState(false)
-  const [auth, setauth] = useState(false)
-  const [utility, setutility] = useState(false)
 
   useEffect(() => {
     var matchingMenuItem = null
@@ -75,7 +57,7 @@ const Navbar = props => {
 
   return (
     <React.Fragment>
-      <div className="topnav">
+      <div className="topnav" style={{"backgroundColor": "#203444"}}>
         <div className="container-fluid">
           <nav
             className="navbar navbar-light navbar-expand-lg topnav-menu"
@@ -88,6 +70,46 @@ const Navbar = props => {
             >
               <ul className="navbar-nav">
                 <li className="nav-item dropdown">
+                  <Link
+                    className="nav-link dropdown-toggle arrow-none"
+                    to="/search"
+                  >
+                    <i className="bx bx-search me-2"></i>
+                    {props.t("Busca")}
+                  </Link>
+                </li>
+
+                <li className="nav-item dropdown">
+                  <Link
+                    className="nav-link dropdown-toggle arrow-none"
+                    to="/coming-soon"
+                  >
+                    <i className="bx bx-grid-alt me-2"></i>
+                    {props.t("Grade de Opções")}
+                  </Link>
+                </li>
+
+                <li className="nav-item dropdown">
+                  <Link
+                    className="nav-link dropdown-toggle arrow-none"
+                    to="/coming-soon"
+                  >
+                    <i className="bx bx-chart me-2"></i>
+                    {props.t("Estratégias")}
+                  </Link>
+                </li>
+
+                <li className="nav-item dropdown">
+                  <Link
+                    className="nav-link dropdown-toggle arrow-none"
+                    to="/coming-soon"
+                  >
+                    <i className="bx bx-book-bookmark me-2"></i>
+                    {props.t("Glossário")}
+                  </Link>
+                </li>
+
+                {/* <li className="nav-item dropdown">
                   <Link
                     className="nav-link dropdown-toggle arrow-none"
                     onClick={e => {
@@ -103,9 +125,6 @@ const Navbar = props => {
                   <div
                     className={classname("dropdown-menu", { show: dashboard })}
                   >
-                    <Link to="search" className="dropdown-item">
-                      {props.t("Busca")}
-                    </Link>
                     <Link to="/dashboard" className="dropdown-item">
                       {props.t("Grade de Opções")}
                     </Link>
@@ -116,10 +135,10 @@ const Navbar = props => {
                       {props.t("Glossário")}
                     </Link>
                   </div>
-                </li>
+                </li> */}
 
                 {/* Inicia a aba */}
-                <li className="nav-item dropdown">
+                {/* <li className="nav-item dropdown">
                   <Link
                     to="/#"
                     onClick={e => {
@@ -224,7 +243,7 @@ const Navbar = props => {
                       </Col>
                     </Row>
                   </div>
-                </li>
+                </li> */}
                 {/* Fim da aba */}
 
               </ul>

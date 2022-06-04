@@ -57,27 +57,27 @@ class OptionsClose extends Component {
                 </Thead>
                 <Tbody>
                     <Tr>
-                        <Td>Preço de exercício</Td>
+                        <Td><b>Preço de exercício</b></Td>
                         <Td>{tableValues.exercise_price}</Td>
                     </Tr>
                     <Tr>
-                        <Td>Nome</Td>
+                        <Td><b>Nome</b></Td>
                         <Td>{tableValues.name}</Td>
                     </Tr>
                     <Tr>
-                        <Td>Preço de fechamento</Td>
+                        <Td><b>Preço de fechamento</b></Td>
                         <Td>{tableValues.close_price}</Td>
                     </Tr>
                     <Tr>
-                        <Td>Número de papéis</Td>
+                        <Td><b>Número de papéis</b></Td>
                         <Td>{tableValues.contracts}</Td>
                     </Tr>
                     <Tr>
-                        <Td>Tipo da opção</Td>
+                        <Td><b>Tipo da opção</b></Td>
                         <Td>{tableValues.type}</Td>
                     </Tr>
                     <Tr>
-                        <Td>Tipo da transação</Td>
+                        <Td><b>Tipo da transação</b></Td>
                         <Td>{tableValues.transaction_type}</Td>
                     </Tr>
                 </Tbody>
