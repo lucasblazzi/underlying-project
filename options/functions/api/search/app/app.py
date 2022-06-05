@@ -40,6 +40,7 @@ def get_query(query):
 def query_options(user_input):
     resp = es.search(body=get_query(user_input), index="underlying_options")
     return [r["_source"] for r in resp["hits"]["hits"]]
+    
 
 
 async def handler(event):

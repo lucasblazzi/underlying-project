@@ -4,8 +4,8 @@ import asyncio
 
 import pandas as pd
 from aiobotocore.session import get_session
-
-from .builder import OptionBuilder
+from builder import OptionBuilder
+#from .builder import OptionBuilder
 
 session = get_session()
 
@@ -13,7 +13,6 @@ session = get_session()
 SERIES_BUCKET = os.environ.get("SERIES_BUCKET", "underlying-options-series")
 REGION = os.environ.get("REGION", "us-east-1")
 PAYOFF_LAMBDA = os.environ.get("PAYOFF_LAMBDA", "OPTIONS-SERVICES-PAYOFF")
-
 
 def preprocess_payload(option):
     payload = {"options": [], "strategy": False}
@@ -36,7 +35,6 @@ async def get_option(option):
         return pd.read_parquet(f"s3://{SERIES_BUCKET}/name={option['name']}/{option['id']}.snappy.parquet")
     except Exception as e:
         raise e
-
 
 async def get_payoff(option):
     async with session.create_client("lambda", region_name=REGION) as client:
