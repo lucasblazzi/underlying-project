@@ -32,15 +32,16 @@ class PriceTable extends Component {
                         <Th>Melhor preço de venda</Th>
                         <Th>Nº de transações</Th>
                         <Th>Quantidade de papéis negociados</Th>
-                        <Th>Volume de papéis negociados</Th>
+                        <Th>Volume financeiro negociado</Th>
                     </Tr>
                 </Thead>
                 <Tbody>
                     <Tr>
                         <Td>Valor</Td>
                         {this.props.data.map((e, index) => (
-                            <Td key={index}>{e.value}</Td>
-
+                            index == 9 
+                                ? <Td key={index}>R${e.value}</Td>
+                                : <Td key={index}>{e.value}</Td>
                         ))}
 
                     </Tr>

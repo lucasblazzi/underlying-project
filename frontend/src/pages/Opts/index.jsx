@@ -11,6 +11,7 @@ import MarketTable from "./MarketTable";
 import OptionsClose from "./OptionsClose";
 import OptionsLong from "./OptionsLong"
 import OptsShortChart from "./OptsShortChart";
+import { Link } from "react-router-dom";
 
 class Opts extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class Opts extends Component {
       data: null,
       name: this.props.location.state.name,
       id: this.props.location.state.id,
+      erro: false,
     };
   }
 
@@ -43,7 +45,11 @@ class Opts extends Component {
         self.setState({ data: result });
         //console.log(result);
       })
-      .catch(error => console.log('error', error));
+      .catch(error => {
+        self.setState({ erro: true });
+        console.log('ERRO: ', error)
+      }
+      );
 
   }
 
@@ -51,7 +57,24 @@ class Opts extends Component {
     //Condicional de envio de dados para o gráfico
     let renderContent;
     if (this.state.data == null) {
-      renderContent = <div style={{"textAlign": "center"}}><Spinner className="ms-2" color="primary" /></div>;
+      if (this.state.erro == false) {
+        renderContent = <div style={{ "textAlign": "center" }}><Spinner className="ms-2" color="primary" /></div>;
+      } else {
+        renderContent = <div className="text-center mb-5">
+          <h1 className="display-2 font-weight-medium">
+            :/
+          </h1>
+          <h4 className="text-uppercase">Opção inexistente</h4>
+          <div className="mt-5 text-center">
+            <Link
+              className="btn btn-info "
+              to="../search"
+            >
+              Voltar
+            </Link>
+          </div>
+        </div>
+      }
     } else {
       //Dados iniciais da Option
       let optInfo = {

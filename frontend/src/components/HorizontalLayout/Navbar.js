@@ -74,8 +74,8 @@ const Navbar = props => {
                     className="nav-link dropdown-toggle arrow-none"
                     to="/search"
                   >
-                    <i className="bx bx-search me-2"></i>
-                    {props.t("Busca")}
+                    <i className="bx bx-home me-2"></i>
+                    {props.t("Página Inicial")}
                   </Link>
                 </li>
 
