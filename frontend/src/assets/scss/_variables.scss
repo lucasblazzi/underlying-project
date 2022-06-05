@@ -118,6 +118,7 @@ $green:   #34c38f;
 $teal:    #050505;
 $cyan:    #50a5f1;
 $cornflower: #081E30;
+$cyanblue: #203444;
 
 // scss-docs-start colors-map
 $colors: (
@@ -134,14 +135,15 @@ $colors: (
     "white":      $white,
     "gray":       $gray-600,
     "gray-dark":  $gray-800,
-    "cornflower": $cornflower
+    "cornflower": $cornflower,
+    "cyan-blue": $cyanblue,
 );
 // scss-docs-end colors-map
 
 $primary:       $cornflower;
 $secondary:     $gray-600;
 $success:       $green;
-$info:          $cyan;
+$info:          $cyanblue;
 $warning:       $yellow;
 $danger:        $red;
 $light:         $gray-200;
