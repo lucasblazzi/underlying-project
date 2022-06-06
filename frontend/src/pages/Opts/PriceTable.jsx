@@ -40,7 +40,7 @@ class PriceTable extends Component {
                         <Td>Valor</Td>
                         {this.props.data.map((e, index) => (
                             index == 9 
-                                ? <Td key={index}>R${e.value}</Td>
+                                ? <Td key={index}>R$ {e.value}</Td>
                                 : <Td key={index}>{e.value}</Td>
                         ))}
 

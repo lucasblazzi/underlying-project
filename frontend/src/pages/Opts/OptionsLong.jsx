@@ -22,7 +22,7 @@ class OptionsClose extends Component {
             series: [
                 {
                     name: "Lucro / Prejuízo",
-                    data: seriesData.y,
+                    data: seriesData.y.map(p => p.toFixed(4)),
                 },
             ],
             options: {
@@ -38,6 +38,18 @@ class OptionsClose extends Component {
                     curve: "smooth",
                     width: 3,
                 },
+                xaxis: {
+                    show: true,
+                    title: {
+                        text: 'Preço do ativo base (R$)'
+                    }
+                },
+                yaxis: {
+                    show: true,
+                    title: {
+                        text: 'Lucro / Prejuízo (R$)'
+                    }
+                }
             },
         }
     }
@@ -58,7 +70,7 @@ class OptionsClose extends Component {
                 <Tbody>
                     <Tr>
                         <Td><b>Preço de exercício</b></Td>
-                        <Td>{tableValues.exercise_price}</Td>
+                        <Td>R$ {tableValues.exercise_price}</Td>
                     </Tr>
                     <Tr>
                         <Td><b>Nome</b></Td>
@@ -66,7 +78,7 @@ class OptionsClose extends Component {
                     </Tr>
                     <Tr>
                         <Td><b>Preço de fechamento</b></Td>
-                        <Td>{tableValues.close_price}</Td>
+                        <Td>R$ {tableValues.close_price}</Td>
                     </Tr>
                     <Tr>
                         <Td><b>Número de papéis</b></Td>
@@ -93,7 +105,7 @@ class OptionsClose extends Component {
                     <Card>
                         <CardBody>
                             <div className="clearfix">
-                                <h4 className="card-title mb-4">Payoff Long</h4>
+                                <h4 className="card-title mb-4">Payoff - Operação de Compra (LONG)</h4>
                             </div>
                             <Row>
                                 <Col lg="8">

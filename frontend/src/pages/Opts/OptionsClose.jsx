@@ -44,7 +44,7 @@ class OptionsClose extends Component {
                     </Tr>
                     <Tr>
                         <Td><b>Preço de exercício</b></Td>
-                        <Td>{this.props.info.exercise_price}</Td>
+                        <Td>{this.props.info.currency} {this.props.info.exercise_price}</Td>
                     </Tr>
                     <Tr>
                         <Td><b>Moeda</b></Td>
@@ -88,6 +88,18 @@ class OptionsClose extends Component {
                 stroke: {
                     curve: "smooth",
                     width: 3,
+                },
+                xaxis: {
+                    show: true,
+                    title: {
+                        text: 'Data'
+                    }
+                },
+                yaxis: {
+                    show: true,
+                    title: {
+                        text: 'Preço de fechamento (R$)'
+                    }
                 },
             },
             table: propsInfo
