@@ -25,13 +25,13 @@ es = Elasticsearch(
 )
 
 
-def get_query(query):
+def get_query(user_input):
     return {
-        "from": 0,
-        "size": 20,
+        "from": user_input.get("from", 0),
+        "size": user_input.get("size", 10),
         "query": {
             "match_phrase_prefix": {
-                "name": escape(query)
+                "name": escape(user_input["query"])
             }
         }
     }
@@ -44,7 +44,7 @@ def query_options(user_input):
 
 async def handler(event):
     body = json.loads(event["body"])
-    results = query_options(body["query"])
+    results = query_options(body)
     return {
         "statusCode": 200,
         "body": json.dumps(results)
