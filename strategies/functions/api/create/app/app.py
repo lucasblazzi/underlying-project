@@ -35,10 +35,11 @@ def lambda_handler(event, context):
         event = json.loads(event)
         strategy = Strategy(**event).dict()
         save_item(strategy)
+
     except ValidationError as e:
         return {
             "statusCode": 422,
-            "body": f"Missing required fields: \n{e}"
+            "body": f"Input field validation error: \n{e}"
         }
 
 

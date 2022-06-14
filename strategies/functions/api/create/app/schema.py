@@ -1,16 +1,10 @@
 from enum import Enum
 from typing import List
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 
-class TransactionEnum(str, Enum):
-    long = "LONG"
-    short = "SHORT"
-
-
-class TypeEnum(str, Enum):
-    call = "CALL"
-    put = "PUT"
+VALID_TYPES = ("CALL", "PUT")
+VALID_TRANSACTIONS = ("LONG", "SHORT")
 
 
 class Option(BaseModel):
@@ -21,6 +15,18 @@ class Option(BaseModel):
     transaction_type: str
     close_price: float
     contracts: int
+
+    @validator("type")
+    def validate_type(cls, v):
+        if v.upper() not in VALID_TYPES:
+            raise TypeError
+        return v.upper()
+
+    @validator("transaction_type")
+    def validate_transaction(cls, v):
+        if v.upper() not in VALID_TRANSACTIONS:
+            raise TypeError
+        return v.upper()
 
 
 class Strategy(BaseModel):
