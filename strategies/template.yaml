@@ -54,12 +54,12 @@ Resources:
   StrategiesAPI:
     Type: AWS::ApiGatewayV2::Api
     DependsOn:
-      - ApiHealthLambda
+      - APIHealthLambda
     Properties:
       Name: strategies-api
       Description: API to provide crude interface strategies
       ProtocolType: HTTP
-      Target: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ApiHealthLambda.Arn}/invocations
+      Target: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${APIHealthLambda.Arn}/invocations
       CorsConfiguration:
         AllowOrigins: ["*"]
         AllowMethods: ["*"]
@@ -244,7 +244,7 @@ Resources:
 #      DockerContext: functions/api/update
 #      Dockerfile: Dockerfile
 
-  ApiHealthLambda:
+ APIHealthLambda:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: STRATEGIES-API-HEALTH
