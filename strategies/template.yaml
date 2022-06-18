@@ -144,6 +144,19 @@ Resources:
         - - integrations
           - !Ref UpdateIntegration
 
+  PayoffRoute:
+    Type: AWS::ApiGatewayV2::Route
+    DependsOn:
+      - PayoffIntegration
+    Properties:
+      ApiId: !Ref StrategiesAPI
+      RouteKey: "POST /payoff"
+      AuthorizationType: NONE
+      Target: !Join
+        - /
+        - - integrations
+          - !Ref PayoffIntegration
+
   CreateIntegration:
     Type: AWS::ApiGatewayV2::Integration
     Properties:
@@ -182,6 +195,19 @@ Resources:
       IntegrationType: AWS_PROXY
       IntegrationMethod: POST
       IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ApiUpdateLambda.Arn}/invocations
+
+  PayoffIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref StrategiesAPI
+      Description: Integration for payoff strategy calculation
+      CredentialsArn: !Ref ApiRole
+      ConnectionType: INTERNET
+      PayloadFormatVersion: "2.0"
+      PassthroughBehavior: WHEN_NO_MATCH
+      IntegrationType: AWS_PROXY
+      IntegrationMethod: POST
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ApiPayoffLambda.Arn}/invocations
 
   Stage:
     Type: AWS::ApiGatewayV2::Stage
@@ -242,6 +268,22 @@ Resources:
     Metadata:
       DockerTag: strategies-api-update
       DockerContext: functions/api/update
+      Dockerfile: Dockerfile
+
+  ApiPayoffLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: STRATEGIES-API-PAYOFF
+      Description: Calculate strategy payoff
+      PackageType: Image
+      Role: !Ref LambdaRole
+      Timeout: 30
+      Environment:
+        Variables:
+          REGION: !Ref AWS::Region
+    Metadata:
+      DockerTag: strategies-api-payoff
+      DockerContext: functions/api/payoff
       Dockerfile: Dockerfile
 
   APIHealthLambda:
