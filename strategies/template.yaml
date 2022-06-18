@@ -65,184 +65,184 @@ Resources:
         AllowMethods: ["*"]
         AllowHeaders: ["Authorization"]
         ExposeHeaders: ["Access-Control-Allow-Origin"]
-
-  CreateRoute:
-    Type: AWS::ApiGatewayV2::Route
-    DependsOn:
-      - CreateIntegration
-    Properties:
-      ApiId: !Ref StrategiesAPI
-      RouteKey: "POST /create"
-      AuthorizationType: NONE
-      Target: !Join
-        - /
-        - - integrations
-          - !Ref CreateIntegration
-
-  ReadStratagyRoute:
-    Type: AWS::ApiGatewayV2::Route
-    DependsOn:
-      - ReadIntegration
-    Properties:
-      ApiId: !Ref StrategiesAPI
-      RouteKey: "POST /strategy"
-      AuthorizationType: NONE
-      Target: !Join
-        - /
-        - - integrations
-          - !Ref ReadIntegration
-
-  ReadSharedRoute:
-    Type: AWS::ApiGatewayV2::Route
-    DependsOn:
-      - ReadIntegration
-    Properties:
-      ApiId: !Ref StrategiesAPI
-      RouteKey: "POST /shared"
-      AuthorizationType: NONE
-      Target: !Join
-        - /
-        - - integrations
-          - !Ref ReadIntegration
-
-  UpdateRoute:
-    Type: AWS::ApiGatewayV2::Route
-    DependsOn:
-      - UpdateIntegration
-    Properties:
-      ApiId: !Ref StrategiesAPI
-      RouteKey: "POST /update"
-      AuthorizationType: NONE
-      Target: !Join
-        - /
-        - - integrations
-          - !Ref UpdateIntegration
-
-  ShareRoute:
-    Type: AWS::ApiGatewayV2::Route
-    DependsOn:
-      - UpdateIntegration
-    Properties:
-      ApiId: !Ref StrategiesAPI
-      RouteKey: "POST /share"
-      AuthorizationType: NONE
-      Target: !Join
-        - /
-        - - integrations
-          - !Ref UpdateIntegration
-
-  DeleteRoute:
-    Type: AWS::ApiGatewayV2::Route
-    DependsOn:
-      - UpdateIntegration
-    Properties:
-      ApiId: !Ref StrategiesAPI
-      RouteKey: "POST /delete"
-      AuthorizationType: NONE
-      Target: !Join
-        - /
-        - - integrations
-          - !Ref UpdateIntegration
-
-  CreateIntegration:
-    Type: AWS::ApiGatewayV2::Integration
-    Properties:
-      ApiId: !Ref StrategiesAPI
-      Description: Integration for create strategy to lambda invoke
-      CredentialsArn: !Ref ApiRole
-      ConnectionType: INTERNET
-      PayloadFormatVersion: "2.0"
-      PassthroughBehavior: WHEN_NO_MATCH
-      IntegrationType: AWS_PROXY
-      IntegrationMethod: POST
-      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ApiCreateLambda.Arn}/invocations
-
-  ReadIntegration:
-    Type: AWS::ApiGatewayV2::Integration
-    Properties:
-      ApiId: !Ref StrategiesAPI
-      Description: Integration for read strategy to lambda invoke
-      CredentialsArn: !Ref ApiRole
-      ConnectionType: INTERNET
-      PayloadFormatVersion: "2.0"
-      PassthroughBehavior: WHEN_NO_MATCH
-      IntegrationType: AWS_PROXY
-      IntegrationMethod: POST
-      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ApiReadLambda.Arn}/invocations
-
-  UpdateIntegration:
-    Type: AWS::ApiGatewayV2::Integration
-    Properties:
-      ApiId: !Ref StrategiesAPI
-      Description: Integration for update strategy to lambda invoke
-      CredentialsArn: !Ref ApiRole
-      ConnectionType: INTERNET
-      PayloadFormatVersion: "2.0"
-      PassthroughBehavior: WHEN_NO_MATCH
-      IntegrationType: AWS_PROXY
-      IntegrationMethod: POST
-      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ApiUpdateLambda.Arn}/invocations
-
-  Stage:
-    Type: AWS::ApiGatewayV2::Stage
-    DependsOn:
-      - CreateRoute
-    Properties:
-      ApiId: !Ref StrategiesAPI
-      StageName: v1
-      Description: API deployment stage
-      AutoDeploy: True
-
-  ApiCreateLambda:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: STRATEGIES-API-CREATE
-      Description: Create strategy
-      PackageType: Image
-      Role: !Ref LambdaRole
-      Timeout: 30
-      Environment:
-        Variables:
-          REGION: !Ref AWS::Region
-          STRATEGY_TABLE: !Ref StrategiesTable
-    Metadata:
-      DockerTag: strategies-api-create
-      DockerContext: functions/api/create
-      Dockerfile: Dockerfile
-
-  ApiReadLambda:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: STRATEGIES-API-READ
-      Description: Read strategy
-      PackageType: Image
-      Role: !Ref LambdaRole
-      Timeout: 30
-      Environment:
-        Variables:
-          REGION: !Ref AWS::Region
-          STRATEGY_TABLE: !Ref StrategiesTable
-    Metadata:
-      DockerTag: strategies-api-read
-      DockerContext: functions/api/read
-      Dockerfile: Dockerfile
-
-  ApiUpdateLambda:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: STRATEGIES-API-UPDATE
-      Description: Update strategy
-      PackageType: Image
-      Role: !Ref LambdaRole
-      Timeout: 30
-      Environment:
-        Variables:
-          REGION: !Ref AWS::Region
-          STRATEGY_TABLE: !Ref StrategiesTable
-    Metadata:
-      DockerTag: strategies-api-update
-      DockerContext: functions/api/update
-      Dockerfile: Dockerfile
+#
+#  CreateRoute:
+#    Type: AWS::ApiGatewayV2::Route
+#    DependsOn:
+#      - CreateIntegration
+#    Properties:
+#      ApiId: !Ref StrategiesAPI
+#      RouteKey: "POST /create"
+#      AuthorizationType: NONE
+#      Target: !Join
+#        - /
+#        - - integrations
+#          - !Ref CreateIntegration
+#
+#  ReadStratagyRoute:
+#    Type: AWS::ApiGatewayV2::Route
+#    DependsOn:
+#      - ReadIntegration
+#    Properties:
+#      ApiId: !Ref StrategiesAPI
+#      RouteKey: "POST /strategy"
+#      AuthorizationType: NONE
+#      Target: !Join
+#        - /
+#        - - integrations
+#          - !Ref ReadIntegration
+#
+#  ReadSharedRoute:
+#    Type: AWS::ApiGatewayV2::Route
+#    DependsOn:
+#      - ReadIntegration
+#    Properties:
+#      ApiId: !Ref StrategiesAPI
+#      RouteKey: "POST /shared"
+#      AuthorizationType: NONE
+#      Target: !Join
+#        - /
+#        - - integrations
+#          - !Ref ReadIntegration
+#
+#  UpdateRoute:
+#    Type: AWS::ApiGatewayV2::Route
+#    DependsOn:
+#      - UpdateIntegration
+#    Properties:
+#      ApiId: !Ref StrategiesAPI
+#      RouteKey: "POST /update"
+#      AuthorizationType: NONE
+#      Target: !Join
+#        - /
+#        - - integrations
+#          - !Ref UpdateIntegration
+#
+#  ShareRoute:
+#    Type: AWS::ApiGatewayV2::Route
+#    DependsOn:
+#      - UpdateIntegration
+#    Properties:
+#      ApiId: !Ref StrategiesAPI
+#      RouteKey: "POST /share"
+#      AuthorizationType: NONE
+#      Target: !Join
+#        - /
+#        - - integrations
+#          - !Ref UpdateIntegration
+#
+#  DeleteRoute:
+#    Type: AWS::ApiGatewayV2::Route
+#    DependsOn:
+#      - UpdateIntegration
+#    Properties:
+#      ApiId: !Ref StrategiesAPI
+#      RouteKey: "POST /delete"
+#      AuthorizationType: NONE
+#      Target: !Join
+#        - /
+#        - - integrations
+#          - !Ref UpdateIntegration
+#
+#  CreateIntegration:
+#    Type: AWS::ApiGatewayV2::Integration
+#    Properties:
+#      ApiId: !Ref StrategiesAPI
+#      Description: Integration for create strategy to lambda invoke
+#      CredentialsArn: !Ref ApiRole
+#      ConnectionType: INTERNET
+#      PayloadFormatVersion: "2.0"
+#      PassthroughBehavior: WHEN_NO_MATCH
+#      IntegrationType: AWS_PROXY
+#      IntegrationMethod: POST
+#      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ApiCreateLambda.Arn}/invocations
+#
+#  ReadIntegration:
+#    Type: AWS::ApiGatewayV2::Integration
+#    Properties:
+#      ApiId: !Ref StrategiesAPI
+#      Description: Integration for read strategy to lambda invoke
+#      CredentialsArn: !Ref ApiRole
+#      ConnectionType: INTERNET
+#      PayloadFormatVersion: "2.0"
+#      PassthroughBehavior: WHEN_NO_MATCH
+#      IntegrationType: AWS_PROXY
+#      IntegrationMethod: POST
+#      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ApiReadLambda.Arn}/invocations
+#
+#  UpdateIntegration:
+#    Type: AWS::ApiGatewayV2::Integration
+#    Properties:
+#      ApiId: !Ref StrategiesAPI
+#      Description: Integration for update strategy to lambda invoke
+#      CredentialsArn: !Ref ApiRole
+#      ConnectionType: INTERNET
+#      PayloadFormatVersion: "2.0"
+#      PassthroughBehavior: WHEN_NO_MATCH
+#      IntegrationType: AWS_PROXY
+#      IntegrationMethod: POST
+#      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ApiUpdateLambda.Arn}/invocations
+#
+#  Stage:
+#    Type: AWS::ApiGatewayV2::Stage
+#    DependsOn:
+#      - CreateRoute
+#    Properties:
+#      ApiId: !Ref StrategiesAPI
+#      StageName: v1
+#      Description: API deployment stage
+#      AutoDeploy: True
+#
+#  ApiCreateLambda:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: STRATEGIES-API-CREATE
+#      Description: Create strategy
+#      PackageType: Image
+#      Role: !Ref LambdaRole
+#      Timeout: 30
+#      Environment:
+#        Variables:
+#          REGION: !Ref AWS::Region
+#          STRATEGY_TABLE: !Ref StrategiesTable
+#    Metadata:
+#      DockerTag: strategies-api-create
+#      DockerContext: functions/api/create
+#      Dockerfile: Dockerfile
+#
+#  ApiReadLambda:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: STRATEGIES-API-READ
+#      Description: Read strategy
+#      PackageType: Image
+#      Role: !Ref LambdaRole
+#      Timeout: 30
+#      Environment:
+#        Variables:
+#          REGION: !Ref AWS::Region
+#          STRATEGY_TABLE: !Ref StrategiesTable
+#    Metadata:
+#      DockerTag: strategies-api-read
+#      DockerContext: functions/api/read
+#      Dockerfile: Dockerfile
+#
+#  ApiUpdateLambda:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: STRATEGIES-API-UPDATE
+#      Description: Update strategy
+#      PackageType: Image
+#      Role: !Ref LambdaRole
+#      Timeout: 30
+#      Environment:
+#        Variables:
+#          REGION: !Ref AWS::Region
+#          STRATEGY_TABLE: !Ref StrategiesTable
+#    Metadata:
+#      DockerTag: strategies-api-update
+#      DockerContext: functions/api/update
+#      Dockerfile: Dockerfile
 
   ApiHealthLambda:
     Type: AWS::Serverless::Function
