@@ -54,7 +54,7 @@ Resources:
   StrategiesAPI:
     Type: AWS::ApiGatewayV2::Api
     DependsOn:
-      - APIHealthLambda
+      - ApiHealthLambda
     Properties:
       Name: strategies-api
       Description: API to provide crude interface strategies
