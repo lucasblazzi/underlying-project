@@ -40,7 +40,7 @@ def strategy_payoff_calculator(options, x):
     strategy = {
         "name": "Strategy",
         "x": x,
-        "y": np.mean([n["payoff"] for n in options], axis=0)
+        "y": np.mean([n["y"] for n in result], axis=0)
     }
     result.append(strategy)
     return result
@@ -52,10 +52,7 @@ def lambda_handler(event, context):
         mean_price = np.mean([o["exercise_price"] for o in event["strategy"]])
         x = get_x(mean_price)
 
-        if event.get("calculate_strategy", False):
-            result = strategy_payoff_calculator(event["strategy"], x)
-        else:
-            result = [single_payoff(option, x) for option in event["strategy"]]
+        result = strategy_payoff_calculator(event["strategy"], x)
 
         return {
             "statusCode": 200,
