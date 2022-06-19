@@ -26,3 +26,13 @@ class Option(BaseModel):
         if v.upper() not in VALID_TRANSACTIONS:
             raise TypeError
         return v.upper()
+
+
+class Share(BaseModel):
+    id: str
+    shared: bool
+
+
+class Delete(BaseModel):
+    id: str
+    deleted: bool

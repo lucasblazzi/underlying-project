@@ -16,24 +16,28 @@ serializer = TypeSerializer()
 STRATEGIES_TABLE = os.environ.get("STRATEGIES_TABLE", "TB_UNDERLYING_STRATEGIES")
 
 
-def prepare_item(item):
+def serialize_item(item):
     item = json.loads(json.dumps(item), parse_float=Decimal)
     return {k: serializer.serialize(v) for k, v in item.items()}
 
 
-def save_item(item):
+def save_item(item, dynamo_client=client):
     item["updatedAt"] = datetime.now().isoformat()
-    client.put_item(
+    dynamo_client.put_item(
         TableName=STRATEGIES_TABLE,
-        Item=prepare_item(item)
+        Item=serialize_item(item)
     )
     return item
+
+
+def validate_item(item):
+    return Strategy(**item).dict()
 
 
 def lambda_handler(event, context):
     try:
         event = json.loads(event["body"])
-        strategy = Strategy(**event).dict()
+        strategy = validate_item(event)
         result = save_item(strategy)
         return {
             "statusCode": 200,
