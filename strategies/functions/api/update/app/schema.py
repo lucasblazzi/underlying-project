@@ -1,4 +1,4 @@
-from uuid import uuid4
+from enum import Enum
 from typing import List
 from pydantic import BaseModel, validator
 
@@ -26,11 +26,3 @@ class Option(BaseModel):
         if v.upper() not in VALID_TRANSACTIONS:
             raise TypeError
         return v.upper()
-
-
-class Strategy(BaseModel):
-    name: str
-    username: str
-    id = str(uuid4())
-    shared = False
-    strategy: List[Option]

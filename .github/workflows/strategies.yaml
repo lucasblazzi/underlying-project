@@ -40,11 +40,11 @@ jobs:
 
       - name: Deploy Strategies Service AWS
         id: strategies-deploy
-        run: sam deploy --no-fail-on-empty-changeset --s3-bucket $bucket --s3-prefix $prefix --stack-name $stack --capabilities $capabilities --region ${{ github.event.inputs.region }}
+        run: sam deploy --no-fail-on-empty-changeset --s3-bucket $bucket --s3-prefix $prefix --stack-name $stack --capabilities $capabilities --region ${{ github.event.inputs.region }} --image-repository $ecr
         env:
           bucket: "underlying-deployments"
           prefix: "STRATEGIES"
           stack: "STRATEGIES"
           capabilities: "CAPABILITY_IAM"
           template: "strategies/template.yaml"
-#          ecr: "182960656850.dkr.ecr.us-east-1.amazonaws.com/underlying-strategies"
+          ecr: "182960656850.dkr.ecr.us-east-1.amazonaws.com/underlying-strategies"
