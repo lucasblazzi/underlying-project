@@ -197,6 +197,38 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Strategies - Payoff",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"strategy\": [\r\n        {\r\n            \"name\": \"custom\",\r\n            \"exercise_price\": 12.32,\r\n            \"transaction_type\": \"LONG\",\r\n            \"close_price\": 1.23,\r\n            \"contracts\": 1,\r\n            \"type\": \"PUT\"\r\n        },\r\n        {\r\n            \"name\": \"custom\",\r\n            \"exercise_price\": 12.32,\r\n            \"transaction_type\": \"SHORT\",\r\n            \"close_price\": 1.23,\r\n            \"contracts\": 1,\r\n            \"type\": \"CAll\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jdmgjcpm1m.execute-api.us-east-1.amazonaws.com/v1/payoff",
+					"protocol": "https",
+					"host": [
+						"jdmgjcpm1m",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"v1",
+						"payoff"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
