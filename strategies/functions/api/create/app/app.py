@@ -13,7 +13,7 @@ from .schema import Strategy
 client = boto3.client('dynamodb')
 serializer = TypeSerializer()
 
-STRATEGIES_TABLE = os.environ.get("STRATEGIES_TABLE", "UNDERLYING_STRATEGIES")
+STRATEGIES_TABLE = os.environ.get("STRATEGIES_TABLE", "TB_UNDERLYING_STRATEGIES")
 
 
 def prepare_item(item):
@@ -23,46 +23,32 @@ def prepare_item(item):
 
 def save_item(item):
     item["updatedAt"] = datetime.now().isoformat()
-    response = client.put_item(
+    client.put_item(
         TableName=STRATEGIES_TABLE,
         Item=prepare_item(item)
     )
-    return response
+    return item
 
 
 def lambda_handler(event, context):
     try:
-        event = json.loads(event)
+        event = json.loads(event["body"])
         strategy = Strategy(**event).dict()
-        save_item(strategy)
+        result = save_item(strategy)
+        return {
+            "statusCode": 200,
+            "body": json.dumps(result)
+        }
+
     except ValidationError as e:
         return {
             "statusCode": 422,
-            "body": f"Missing required fields: \n{e}"
+            "body": f"Input field validation error: \n{e}"
         }
 
-
-# event = json.dumps({
-#     "username": "blazzi",
-#     "strategy": [
-#         {
-#             "id": "custom",
-#             "name": "custom",
-#             "exercise_price": 12.32,
-#             "transaction_type": "LONG",
-#             "close_price": 1.23,
-#             "contracts": 1,
-#             "type": "CAll"
-#         },
-#         {
-#             "id": "custom",
-#             "name": "custom",
-#             "exercise_price": 12.32,
-#             "transaction_type": "SHORT",
-#             "close_price": 1.23,
-#             "contracts": 1,
-#             "type": "CAll"
-#         }
-#     ]
-# })
-# print(lambda_handler(event, ""))
+    except Exception as e:
+        print(e)
+        return {
+            "statusCode": 500,
+            "body": f"Internal Server Error"
+        }
