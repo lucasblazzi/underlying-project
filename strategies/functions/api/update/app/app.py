@@ -7,7 +7,7 @@ import boto3
 from boto3.dynamodb.types import TypeSerializer, TypeDeserializer
 from pydantic.error_wrappers import ValidationError
 
-from .schema import Option
+from .schema import Option, Share, Delete
 
 
 client = boto3.client('dynamodb')
@@ -43,6 +43,18 @@ class UpdateInterface:
     def deserialize_item(item):
         return {k: deserializer.deserialize(v) for k, v in item.items()}
 
+    @staticmethod
+    def validate_strategy(strategy):
+        return [json.loads(json.dumps(Option(**option).dict()), parse_float=Decimal) for option in strategy]
+
+    @staticmethod
+    def validate_share(share):
+        return Share(**share).dict()
+
+    @staticmethod
+    def validate_delete(delete):
+        return Delete(**delete).dict()
+
     def update_item(self, item):
         item["updatedAt"] = datetime.now().isoformat()
         response = client.update_item(
@@ -76,8 +88,7 @@ class UpdateInterface:
         if event.get("name"):
             update["name"] = event["name"]
         if event.get("strategy"):
-            update["strategy"] = [json.loads(json.dumps(Option(**option).dict()),
-                                             parse_float=Decimal) for option in event["strategy"]]
+            update["strategy"] = self.validate_strategy(event["strategy"])
         res = self.update_item(update)
         return res
 
