@@ -6,6 +6,7 @@ import pandas as pd
 from aiobotocore.session import get_session
 
 from .builder import OptionBuilder
+from .schema import OptionIput
 
 session = get_session()
 
@@ -13,6 +14,7 @@ session = get_session()
 SERIES_BUCKET = os.environ.get("SERIES_BUCKET", "underlying-options-series")
 REGION = os.environ.get("REGION", "us-east-1")
 PAYOFF_LAMBDA = os.environ.get("PAYOFF_LAMBDA", "OPTIONS-SERVICES-PAYOFF")
+
 
 
 def preprocess_payload(option):
@@ -30,6 +32,8 @@ def preprocess_payload(option):
         payload["options"].append(tmp_opt)
     return payload
 
+def validate_option_input(event):
+    return OptionIput(**event).dict()
 
 async def get_option(option):
     try:
@@ -51,7 +55,8 @@ async def get_payoff(option):
 
 async def handler(event):
     try:
-        body = json.loads(event["body"])
+        
+        body = validate_option_input(json.loads(event["body"]))
         option_series = pd.DataFrame(await get_option(body)).sort_values("date")
         option = option_series.iloc[-1]
         payoff = await get_payoff(option.to_dict())
@@ -70,3 +75,4 @@ async def handler(event):
 def lambda_handler(event, context):
     loop = asyncio.get_event_loop()
     return loop.run_until_complete(handler(event))
+
