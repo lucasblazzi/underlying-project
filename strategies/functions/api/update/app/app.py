@@ -10,7 +10,7 @@ from pydantic.error_wrappers import ValidationError
 from .schema import Option, Share, Delete
 
 
-client = boto3.client('dynamodb')
+client = boto3.client('dynamodb', region_name="us-east-1")
 serializer = TypeSerializer()
 deserializer = TypeDeserializer()
 

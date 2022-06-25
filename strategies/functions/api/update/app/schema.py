@@ -1,7 +1,6 @@
 from enum import Enum
 from typing import List
-from pydantic import BaseModel, validator
-
+from pydantic import BaseModel, validator, Field
 
 VALID_TYPES = ("CALL", "PUT")
 VALID_TRANSACTIONS = ("LONG", "SHORT")
@@ -29,10 +28,10 @@ class Option(BaseModel):
 
 
 class Share(BaseModel):
-    id: str
+    id:  str = Field(None, min_length=36, max_length=36)
     shared: bool
 
 
 class Delete(BaseModel):
-    id: str
+    id:  str = Field(None, min_length=36, max_length=36)
     deleted: bool
