@@ -1,6 +1,6 @@
 from uuid import uuid4
 from typing import List
-from pydantic import BaseModel, validator, Field, StrictStr
+from pydantic import BaseModel, validator, Field
 
 
 VALID_TYPES = ("CALL", "PUT")
