@@ -10,7 +10,6 @@ from pydantic.error_wrappers import ValidationError
 from .schema import Option, Share, Delete
 
 
-client = boto3.client('dynamodb')
 serializer = TypeSerializer()
 deserializer = TypeDeserializer()
 
@@ -56,6 +55,7 @@ class UpdateInterface:
         return Delete(**delete).dict()
 
     def update_item(self, item):
+        client = boto3.client('dynamodb')
         item["updatedAt"] = datetime.now().isoformat()
         response = client.update_item(
             TableName=STRATEGIES_TABLE,
@@ -70,7 +70,7 @@ class UpdateInterface:
             "id": event["id"],
             "shared": event.get("shared", False)
         }
-        res = self.update_item(update)
+        res = self.update_item(self.validate_share(update))
         return res
 
     def delete(self, event):
@@ -78,7 +78,7 @@ class UpdateInterface:
             "id": event["id"],
             "deleted": event.get("deleted", False)
         }
-        res = self.update_item(update)
+        res = self.update_item(self.validate_delete(update))
         return res
 
     def update(self, event):
@@ -117,5 +117,6 @@ def lambda_handler(event, context):
         print(e)
         return {
             "statusCode": 500,
-            "body": f"Internal Server Error"
+            "body": f"Internal Server Error",
+            "error": e
         }
