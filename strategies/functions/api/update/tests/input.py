@@ -20,6 +20,7 @@ base_caseC2 = {
     "deleted": True
 }
 
+
 class TestSuiteA1:
 
     @staticmethod
@@ -30,7 +31,6 @@ class TestSuiteA1:
     @staticmethod
     def input_c2():
         case = deepcopy(base_case)
-<<<<<<< HEAD
         case["id"]= "d5c78622-cc45-4c20-9ada-a34cf39234e"
         return case
 
@@ -221,7 +221,7 @@ class TestSuiteCombinatorial:
     @staticmethod
     def input_tc07():
         case = deepcopy(base_caseC2)
-        case["id"] =  "5$8ierFF"
+        case["id"] = "5$8ierFF"
         return case
     
     @staticmethod
@@ -230,7 +230,3 @@ class TestSuiteCombinatorial:
         case["id"] = "no"
         case["shared"] = "no"
         return case
-=======
-        case["shared"] = "Undefined"
-        return case
->>>>>>> aec2f7358f696deff93fedb81a6677c0ae571e66
