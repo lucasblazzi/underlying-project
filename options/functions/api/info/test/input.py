@@ -1,43 +1,147 @@
+from copy import deepcopy
 
 
-class TestInput:
+base_case = {
+    'id': '60137665a3315885b579abe6803b55d0', 
+    'name': 'BOVAA100'
+    }
+
+
+class TestSuiteA1:
+    """
+    A1 - Critério Funcional Sistemático - Classes de Equivalência (C) e Análise do Valor Limite para Opção
+        •	Comprimento do nome:
+            o	C1 – nome de 5 caracteres  válido
+            o	C2 – nome de 8 caracteres  válido
+            o	C3 – nome com 2 caracteres  inválido
+            o	C4 – nome com 10 caracteres  inválido
+            o	C5 – nome vazio  inválido
+        •	Tipo do nome:
+            o	C6 – nome do tipo string  válido
+            o	C7 – nome do tipo inteiro  inválido
+            o	C8 – nome do tipo booleano  inválido
+        •	Comprimento do id:
+            o	C9 – id de 32 caracteres  válido
+            o	C10 – id de 31 caracteres  inválido
+            o	C11 – id de 33 caracteres  inválido
+        •	Tipo do id:
+            o	C12 – id do tipo string  válido
+            o	C13 – id do tipo dicionário  inválido
+            o	C14 – id do tipo booleano  inválido
+    """
+    @staticmethod
+    def input_c1():
+        case = deepcopy(base_case)
+        case["name"] = "ABCDE"
+        return case
 
     @staticmethod
-    def lambda_handler_input():
-        _input = {
-            "event": {
-                "body": '{"id": "60137665a3315885b579abe6803b55d0", "name": "BOVAA100"}'
-            },
-            "context": None
-        }
-        return _input
+    def input_c2():
+        case = deepcopy(base_case)
+        return case
 
     @staticmethod
-    def handler_input():
-        _input = {
-            "event": {
-                "body": '{"id": "60137665a3315885b579abe6803b55d0", "name": "BOVAA100"}'
-            }
-        }
-        return _input
+    def input_c3():
+        case = deepcopy(base_case)
+        case["name"] = "AB"
+        return case
 
     @staticmethod
-    def get_payoff_input():
-        _input = {
-            "option": {'register_type': 1, 'date': '2022-01-21', 'name': 'BOVAA100', 'company': 'BOVA', 'share_type': 'CI', 'forward_market_deadline': 0.0, 'currency': 'R$', 'open_price': 4.6, 'max_price': 6.25, 'min_price': 4.6, 'average_price': 4.92, 'close_price': 4.8, 'best_buy_price': 4.62, 'best_sell_price': 0.0, 'transactions': 41.0, 'quantity': 66060.0, 'volume': 325120.1, 'exercise_price': 100.0, 'price_correction_indicator': 0.0, 'expiration_date': '2022-01-21', 'price_factor': 1.0, 'exercise_price_points': 0.0, 'isin_code': 'BRBOVACTF003', 'distribution_share_number': 105.0, 'type': 'CALL', 'folder': 'opcoes', 'id': '60137665a3315885b579abe6803b55d0', 'name_underlying': 'BOVA11', 'company_underlying': 'ISHARES BOVA', 'close_price_underlying': 104.7, 'expiration_time': 0.0, 'return_underlying': -0.0019065776930410339, 'volatility_underlying': 0.175315602666898, 'n1': 0.045928931888399735, 'n2': 0.0, 'd': 0.0, 'd1': 0.0, 'd2': 0.0, 'normal_d1': 1.0, 'normal_d2': 1.0, 'a': 104.7, 'b': 100.0, 'option_value': 4.700000000000003, 'intrinsic_value': 4.700000000000003, 'time_value': 0.0, 'delta': 1.0, 'theta': 0.0, 'rho': 0.0, 'gamma': 0.0, 'vega': 0.0, 'hedge_ratio': 1.0}
-        }
-        return _input
+    def input_c4():
+        case = deepcopy(base_case)
+        case["name"] = "ABCDEFGHIJ"
+        return case
 
     @staticmethod
-    def get_option_input():
-        _input = {
-            "option": {'id': '60137665a3315885b579abe6803b55d0', 'name': 'BOVAA100'}
-        }
-        return _input
+    def input_c5():
+        case = deepcopy(base_case)
+        case["name"] = ""
+        return case
 
     @staticmethod
-    def preprocess_payload_input():
-        _input = {
-            "option": {'register_type': 1, 'date': '2022-01-21', 'name': 'BOVAA100', 'company': 'BOVA', 'share_type': 'CI', 'forward_market_deadline': 0.0, 'currency': 'R$', 'open_price': 4.6, 'max_price': 6.25, 'min_price': 4.6, 'average_price': 4.92, 'close_price': 4.8, 'best_buy_price': 4.62, 'best_sell_price': 0.0, 'transactions': 41.0, 'quantity': 66060.0, 'volume': 325120.1, 'exercise_price': 100.0, 'price_correction_indicator': 0.0, 'expiration_date': '2022-01-21', 'price_factor': 1.0, 'exercise_price_points': 0.0, 'isin_code': 'BRBOVACTF003', 'distribution_share_number': 105.0, 'type': 'CALL', 'folder': 'opcoes', 'id': '60137665a3315885b579abe6803b55d0', 'name_underlying': 'BOVA11', 'company_underlying': 'ISHARES BOVA', 'close_price_underlying': 104.7, 'expiration_time': 0.0, 'return_underlying': -0.0019065776930410339, 'volatility_underlying': 0.175315602666898, 'n1': 0.045928931888399735, 'n2': 0.0, 'd': 0.0, 'd1': 0.0, 'd2': 0.0, 'normal_d1': 1.0, 'normal_d2': 1.0, 'a': 104.7, 'b': 100.0, 'option_value': 4.700000000000003, 'intrinsic_value': 4.700000000000003, 'time_value': 0.0, 'delta': 1.0, 'theta': 0.0, 'rho': 0.0, 'gamma': 0.0, 'vega': 0.0, 'hedge_ratio': 1.0}
+    def input_c6():
+        case = deepcopy(base_case)
+        return case
+
+    @staticmethod
+    def input_c7():
+        case = deepcopy(base_case)
+        case["name"] = 22
+        return case
+
+    @staticmethod
+    def input_c8():
+        case = deepcopy(base_case)
+        case["name"] = True
+        return case
+
+    @staticmethod
+    def input_c9():
+        case = deepcopy(base_case)
+        return case
+
+    @staticmethod
+    def input_c10():
+        case = deepcopy(base_case)
+        case["id"] = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDE"
+        return case
+
+    @staticmethod
+    def input_c11():
+        case = deepcopy(base_case)
+        case["id"] = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFG"
+        return case
+
+    @staticmethod
+    def input_c12():
+        case = deepcopy(base_case)
+        return case
+
+    @staticmethod
+    def input_c13():
+        case = deepcopy(base_case)
+        case["id"] = {
+            "foo":"bar"
         }
-        return _input
+        return case
+
+    @staticmethod
+    def input_c14():
+        case = deepcopy(base_case)
+        case["id"] = False
+        return case
+
+
+class TestSuiteCombinatorial:
+
+    @staticmethod
+    def input_ct1():
+        # nome válido
+        # id válido
+        case = deepcopy(base_case)
+        return case
+
+    @staticmethod
+    def input_ct2():
+        # nome inválido
+        # id válido
+        case = deepcopy(base_case)
+        case["name"] = "ABC"
+        return case
+
+    @staticmethod
+    def input_ct3():
+        # nome válido
+        # id inválido
+        case = deepcopy(base_case)
+        case["id"] = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDE"
+        return case
+
+    @staticmethod
+    def input_ct4():
+        # nome inválido
+        # id inválido
+        case = deepcopy(base_case)
+        case["name"] = "ABCDEFGHIJ"
+        case["id"] = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFG"
+        return case
