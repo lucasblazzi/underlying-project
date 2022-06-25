@@ -1,7 +1,7 @@
 import sys
 
-from .env.resources import dynamodb_strategies
-from .env.aws import aws_credentials, lambda_context, dynamodb_resource
+from .test-env.resources import dynamodb_strategies
+from .test-env.aws import aws_credentials, lambda_context, dynamodb_resource
 
 
 from ..app.app import lambda_handler
