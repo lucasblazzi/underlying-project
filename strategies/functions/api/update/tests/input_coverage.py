@@ -57,3 +57,16 @@ class CoverageInput:
             "shared": True
         })
         return case
+
+    @staticmethod
+    def input_error_422():
+        case = deepcopy(base_api_request)
+        case["rawPath"] += "share"
+        case["body"] = json.dumps({"id": "1234"})
+        return case
+
+    @staticmethod
+    def input_error_500():
+        case = deepcopy(base_api_request)
+        case["rawPath"] += "Invalid"
+        return case
