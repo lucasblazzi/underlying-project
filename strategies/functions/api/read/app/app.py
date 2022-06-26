@@ -9,7 +9,6 @@ from pydantic.error_wrappers import ValidationError
 from .schema import Strategy
 
 
-client = boto3.client('dynamodb')
 serializer = TypeSerializer()
 deserializer = TypeDeserializer()
 
@@ -43,6 +42,7 @@ class UpdateInterface:
         return {k: deserializer.deserialize(v) for k, v in item.items()}
 
     def get_strategy(self, event):
+        client = boto3.client("dynamodb", region_name="us-east-1")
         response = client.get_item(
             TableName=STRATEGIES_TABLE,
             Key={"id": serializer.serialize(event["id"])}
@@ -51,6 +51,7 @@ class UpdateInterface:
         return Strategy(**result).dict()
 
     def get_shared_strategies(self, kwargs):
+        client = boto3.client("dynamodb", region_name="us-east-1")
         response = client.scan(
             TableName=STRATEGIES_TABLE,
             FilterExpression="#sh=:t and deleted=:f",
