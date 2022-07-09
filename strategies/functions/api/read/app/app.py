@@ -46,7 +46,8 @@ class ReadInterface:
         response = client.query(
             TableName=STRATEGIES_TABLE,
             IndexName="username-index",
-            KeyConditionExpression="deleted=:f and username=:u",
+            FilterExpression="deleted=:f",
+            KeyConditionExpression="username=:u",
             ExpressionAttributeValues={":f": {"BOOL": False}, ":u": {"S": event["username"]}}
         )
         result = [self.deserialize_item(item) for item in response["Items"]]
