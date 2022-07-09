@@ -33,4 +33,5 @@ class Strategy(BaseModel):
     username: str = Field(None, min_length=6, max_length=20)
     id = str(uuid4())
     shared = False
+    deleted = False
     strategy: List[Option] = Field(min_items=1)
