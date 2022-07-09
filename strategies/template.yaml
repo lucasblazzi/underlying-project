@@ -105,6 +105,19 @@ Resources:
         - - integrations
           - !Ref ReadIntegration
 
+  ReadUserRoute:
+    Type: AWS::ApiGatewayV2::Route
+    DependsOn:
+      - ReadIntegration
+    Properties:
+      ApiId: !Ref StrategiesAPI
+      RouteKey: "POST /user"
+      AuthorizationType: NONE
+      Target: !Join
+        - /
+        - - integrations
+          - !Ref ReadIntegration
+
   UpdateRoute:
     Type: AWS::ApiGatewayV2::Route
     DependsOn:

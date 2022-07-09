@@ -22,7 +22,7 @@ class DecimalEncoder(json.JSONEncoder):
         return super(DecimalEncoder, self).default(o)
 
 
-class UpdateInterface:
+class ReadInterface:
     def __init__(self, event):
         self.event = event
 
@@ -40,6 +40,17 @@ class UpdateInterface:
     @staticmethod
     def deserialize_item(item):
         return {k: deserializer.deserialize(v) for k, v in item.items()}
+
+    def get_user_strategies(self, event):
+        client = boto3.client("dynamodb", region_name="us-east-1")
+        response = client.query(
+            TableName=STRATEGIES_TABLE,
+            IndexName="username-index",
+            FilterExpression="deleted=:f and username=:u",
+            ExpressionAttributeValues={":f": {"BOOL": False}, ":u": {"S": event["username"]}}
+        )
+        result = [self.deserialize_item(item) for item in response["Items"]]
+        return result
 
     def get_strategy(self, event):
         client = boto3.client("dynamodb", region_name="us-east-1")
@@ -64,7 +75,8 @@ class UpdateInterface:
     def general_get(self):
         map_method = {
             "shared": "get_shared_strategies",
-            "strategy": "get_strategy"
+            "strategy": "get_strategy",
+            "user": "get_user_strategies"
         }
         method = self.__get_method()
         event = self.__get_body()
@@ -74,7 +86,7 @@ class UpdateInterface:
 
 def lambda_handler(event, context):
     try:
-        item = UpdateInterface(event).general_get()
+        item = ReadInterface(event).general_get()
         return {
             "statusCode": 200,
             "body": json.dumps(item, cls=DecimalEncoder)
