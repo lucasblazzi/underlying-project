@@ -46,11 +46,11 @@ class ReadInterface:
         response = client.query(
             TableName=STRATEGIES_TABLE,
             IndexName="username-index",
-            FilterExpression="deleted=:f and username=:u",
+            KeyConditionExpression="deleted=:f and username=:u",
             ExpressionAttributeValues={":f": {"BOOL": False}, ":u": {"S": event["username"]}}
         )
         result = [self.deserialize_item(item) for item in response["Items"]]
-        return result
+        return [Strategy(**res).dict() for res in result]
 
     def get_strategy(self, event):
         client = boto3.client("dynamodb", region_name="us-east-1")
