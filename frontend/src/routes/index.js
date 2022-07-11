@@ -18,6 +18,10 @@ import Pages404 from "pages/pages-404"
 import Opts from "pages/Opts"
 import Search from "pages/Search"
 import PagesComingsoon from "components/pages-comingsoon"
+import Strategies from "pages/Strategies"
+import Glossary from "pages/Glossary"
+import SharedStrategies from "pages/Strategies/shared"
+import ViewStrategy from "pages/Strategies/view"
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -32,6 +36,12 @@ const authProtectedRoutes = [
   { path: "/opts", component: Opts },
 
   { path: "/search", component: Search },
+
+  { path: "/strategies", component: Strategies },
+  { path: "/view-strategies", component: SharedStrategies },
+  { path: "/view-strategy", component: ViewStrategy },
+
+  { path: "/glossary", component: Glossary },
 
   { path:"/coming-soon", component: PagesComingsoon},
   { path: "/", component: Dashboard },

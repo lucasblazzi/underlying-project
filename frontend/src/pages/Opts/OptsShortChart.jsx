@@ -14,7 +14,7 @@ class OptsShortChart extends Component {
         var series = [
             {
                 name: "Lucro / Prejuízo",
-                data: this.props.data.y,
+                data: this.props.data.y.map(p => p.toFixed(4)),
             },
         ];
         var options = {
@@ -30,6 +30,18 @@ class OptsShortChart extends Component {
                 curve: "smooth",
                 width: 3,
             },
+            xaxis: {
+                show: true,
+                title: {
+                    text: 'Preço do ativo base (R$)'
+                }
+            },
+            yaxis: {
+                show: true,
+                title: {
+                    text: 'Lucro / Prejuízo (R$)'
+                }
+            }
         };
 
         let tableContent;
@@ -47,7 +59,7 @@ class OptsShortChart extends Component {
                 <Tbody>
                     <Tr>
                         <Td><b>Preço de exercício</b></Td>
-                        <Td>{this.props.data.exercise_price}</Td>
+                        <Td>R$ {this.props.data.exercise_price}</Td>
                     </Tr>
                     <Tr>
                         <Td><b>Nome</b></Td>
@@ -55,7 +67,7 @@ class OptsShortChart extends Component {
                     </Tr>
                     <Tr>
                         <Td><b>Preço de fechamento</b></Td>
-                        <Td>{this.props.data.close_price}</Td>
+                        <Td>R$ {this.props.data.close_price}</Td>
                     </Tr>
                     <Tr>
                         <Td><b>Número de papéis</b></Td>
@@ -82,7 +94,7 @@ class OptsShortChart extends Component {
                     <Card>
                         <CardBody>
                             <div className="clearfix">
-                                <h4 className="card-title mb-4">Payoff Short</h4>
+                                <h4 className="card-title mb-4">{this.props.title}</h4>
                             </div>
                             <Row>
                                 <Col lg="8">
@@ -117,6 +129,7 @@ class OptsShortChart extends Component {
 
 OptsShortChart.propTypes = {
     data: PropTypes.object,
+    title: PropTypes.string,
 }
 
 export default OptsShortChart;
