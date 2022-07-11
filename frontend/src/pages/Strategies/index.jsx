@@ -15,7 +15,7 @@ class Strategies extends Component {
       strategyData: null,
       modal_create_opt: false,
       options: [],
-      chartModal: false,
+      chartModal: [false],
       isCreated: false,
       createResponse: null,
     }
@@ -114,9 +114,11 @@ class Strategies extends Component {
     this.removeBodyCss()
   }
 
-  modal_chart() {
+  modal_chart(i) {
+    var modalIndex = this.state.chartModal;
+    modalIndex[i] = !modalIndex[i];
     this.setState({
-      chartModal: !this.state.chartModal
+      chartModal: modalIndex
     });
     this.removeBodyCss()
   }
@@ -213,15 +215,15 @@ class Strategies extends Component {
               </Td>
               <Td style={{ "padding": "2rem" }}>
                 <Button color="primary" onClick={async function () {
-                  self.modal_chart();
+                  self.modal_chart(index);
                 }}>
                   <i className='bx bx-line-chart font-size-16 align-middle'></i>
                 </Button>
                 <Modal
                   size="lg"
-                  isOpen={this.state.chartModal}
+                  isOpen={this.state.chartModal[index]}
                   toggle={() => {
-                    this.modal_chart()
+                    //this.modal_chart()
                   }}
                   centered={true}
                 >
@@ -230,7 +232,7 @@ class Strategies extends Component {
                     <button
                       type="button"
                       onClick={() => {
-                        this.modal_chart()
+                        this.modal_chart(index)
                       }}
                       className="close"
                       data-dismiss="modal"
