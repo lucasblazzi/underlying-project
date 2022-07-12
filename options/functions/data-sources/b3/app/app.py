@@ -24,7 +24,7 @@ ES_ENDPOINT = "https://search-underlying-zpfrcbjukmsi3otoeaohoemdu4.us-east-1.es
 BUCKET_NAME = os.environ.get("BUCKET", "underlying-options-series")
 
 es_cols = ["date", "id", "name", "name_underlying", "company_underlying", "close_price",
-           "exercise_price", "expiration_date", "type", "isin_code"]
+           "exercise_price", "expiration_date", "type"]
 
 
 def decrypt_url(url):
