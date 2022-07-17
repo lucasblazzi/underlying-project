@@ -57,4 +57,3 @@ def lambda_handler(event, context):
 
     return json.loads(json.dumps(result, cls=NumpyArrayEncoder))
 
-

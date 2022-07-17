@@ -6,7 +6,7 @@ import pandas as pd
 from aiobotocore.session import get_session
 
 from .builder import OptionBuilder
-from .schema import OptionIput
+from .schema import OptionInput
 
 session = get_session()
 
@@ -14,7 +14,6 @@ session = get_session()
 SERIES_BUCKET = os.environ.get("SERIES_BUCKET", "underlying-options-series")
 REGION = os.environ.get("REGION", "us-east-1")
 PAYOFF_LAMBDA = os.environ.get("PAYOFF_LAMBDA", "OPTIONS-SERVICES-PAYOFF")
-
 
 
 def preprocess_payload(option):
@@ -35,8 +34,10 @@ def preprocess_payload(option):
     except Exception as e:
         raise e
 
+
 def validate_option_input(event):
-    return OptionIput(**event).dict()
+    return OptionInput(**event).dict()
+
 
 async def get_option(option):
     try:
