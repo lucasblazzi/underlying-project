@@ -58,9 +58,3 @@ def lambda_handler(event, context):
     return json.loads(json.dumps(result, cls=NumpyArrayEncoder))
 
 
-
-# event = {
-#     "options": [{"exercise_price": 12.32, "transaction_type": "LONG", "close_price": 1.23, "contracts": 1, "type": "CAll"},
-#          {"exercise_price": 12.32, "transaction_type": "SHORT", "close_price": 1.23, "contracts": 1, "type": "CAll"}],
-#          "strategy": False}
-# print(lambda_handler(event, ""))

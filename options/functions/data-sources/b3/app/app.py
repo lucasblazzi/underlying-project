@@ -23,8 +23,8 @@ daily_data = b"gAAAAABhvn3zDitlQLagTDCxbMMFHStNqnxCnAq_CS37Yqnm1KADWdvb_BM3iLaD1
 ES_ENDPOINT = "https://search-underlying-zpfrcbjukmsi3otoeaohoemdu4.us-east-1.es.amazonaws.com"
 BUCKET_NAME = os.environ.get("BUCKET", "underlying-options-series")
 
-es_cols = ["date", "id", "name", "name_underlying", "close_price", "exercise_price", "expiration_date", "type",
-           "isin_code"]
+es_cols = ["date", "id", "name", "name_underlying", "company_underlying", "close_price",
+           "exercise_price", "expiration_date", "type", "isin_code"]
 
 
 def decrypt_url(url):
@@ -44,8 +44,13 @@ def save_es(options):
         print(f"ES SAVE {option['id']}")
         payload.append({"index": {"_id": option["id"]}})
         payload.append(option)
-    body = "\n".join([json.dumps(p) for p in payload])
-    es.bulk(body=body, index="underlying_options", doc_type="_doc")
+
+    n = 100
+    chunks = [payload[i:i + n] for i in range(0, len(payload), n)]
+    for chunk in chunks:
+        print("SAVING CHUNK - ES")
+        body = "\n".join([json.dumps(p) for p in chunk])
+        es.bulk(body=body, index="underlying_options", doc_type="_doc")
 
 
 async def save_data(dfs):
@@ -64,7 +69,11 @@ async def save_data(dfs):
             except Exception as e:
                 print(f"ERROR ON {df.index.name}")
                 continue
-        await asyncio.gather(*tasks)
+        n = 100
+        chunks = [tasks[i:i + n] for i in range(0, len(tasks), n)]
+        for chunk in chunks:
+            print("SAVING CHUNK - S3")
+            await asyncio.gather(*chunk)
     return register
 
 

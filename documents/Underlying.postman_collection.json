@@ -1,0 +1,234 @@
+{
+	"info": {
+		"_postman_id": "19765866-7645-4990-9844-03a3073c0320",
+		"name": "Underlying",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15145679"
+	},
+	"item": [
+		{
+			"name": "Strategies - Create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"blazzi\",\r\n    \"name\": \"Custom Long Straddle\",\r\n    \"strategy\": [\r\n        {\r\n            \"name\": \"custom\",\r\n            \"exercise_price\": 12.32,\r\n            \"transaction_type\": \"LONG\",\r\n            \"close_price\": 1.23,\r\n            \"contracts\": 1,\r\n            \"type\": \"PUT\"\r\n        },\r\n        {\r\n            \"name\": \"custom\",\r\n            \"exercise_price\": 12.32,\r\n            \"transaction_type\": \"SHORT\",\r\n            \"close_price\": 1.23,\r\n            \"contracts\": 1,\r\n            \"type\": \"CAll\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jdmgjcpm1m.execute-api.us-east-1.amazonaws.com/v1/create",
+					"protocol": "https",
+					"host": [
+						"jdmgjcpm1m",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"v1",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Strategies - Share",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"76e2e2ae-dbdf-47e3-8539-707987c2b872\", \r\n    \"shared\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jdmgjcpm1m.execute-api.us-east-1.amazonaws.com/v1/share",
+					"protocol": "https",
+					"host": [
+						"jdmgjcpm1m",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"v1",
+						"share"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Strategies - Delete",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"76e2e2ae-dbdf-47e3-8539-707987c2b872\", \r\n    \"deleted\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jdmgjcpm1m.execute-api.us-east-1.amazonaws.com/v1/delete",
+					"protocol": "https",
+					"host": [
+						"jdmgjcpm1m",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"v1",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Strategies - Update",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"a122cc2a-bd35-42a8-80a0-536dc7bf490d\", \r\n    \"name\": \"Random Name\",\r\n    \"strategy\": [\r\n        {\r\n            \"name\": \"custom\",\r\n            \"exercise_price\": 12.32,\r\n            \"transaction_type\": \"LONG\",\r\n            \"close_price\": 1.23,\r\n            \"contracts\": 1,\r\n            \"type\": \"PUT\"\r\n        },\r\n        {\r\n            \"name\": \"custom\",\r\n            \"exercise_price\": 12.32,\r\n            \"transaction_type\": \"SHORT\",\r\n            \"close_price\": 1.23,\r\n            \"contracts\": 1,\r\n            \"type\": \"CAll\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jdmgjcpm1m.execute-api.us-east-1.amazonaws.com/v1/update",
+					"protocol": "https",
+					"host": [
+						"jdmgjcpm1m",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"v1",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Strategies - Read",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"76e2e2ae-dbdf-47e3-8539-707987c2b872\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jdmgjcpm1m.execute-api.us-east-1.amazonaws.com/v1/strategy",
+					"protocol": "https",
+					"host": [
+						"jdmgjcpm1m",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"v1",
+						"strategy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Strategies - Read Shared",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jdmgjcpm1m.execute-api.us-east-1.amazonaws.com/v1/shared",
+					"protocol": "https",
+					"host": [
+						"jdmgjcpm1m",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"v1",
+						"shared"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Strategies - Payoff",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"strategy\": [\r\n        {\r\n            \"name\": \"custom\",\r\n            \"exercise_price\": 12.32,\r\n            \"transaction_type\": \"LONG\",\r\n            \"close_price\": 1.23,\r\n            \"contracts\": 1,\r\n            \"type\": \"PUT\"\r\n        },\r\n        {\r\n            \"name\": \"custom\",\r\n            \"exercise_price\": 12.32,\r\n            \"transaction_type\": \"SHORT\",\r\n            \"close_price\": 1.23,\r\n            \"contracts\": 1,\r\n            \"type\": \"CAll\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jdmgjcpm1m.execute-api.us-east-1.amazonaws.com/v1/payoff",
+					"protocol": "https",
+					"host": [
+						"jdmgjcpm1m",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"v1",
+						"payoff"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

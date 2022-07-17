@@ -6,6 +6,7 @@ import pandas as pd
 from aiobotocore.session import get_session
 
 from .builder import OptionBuilder
+from .schema import OptionIput
 
 session = get_session()
 
@@ -15,21 +16,27 @@ REGION = os.environ.get("REGION", "us-east-1")
 PAYOFF_LAMBDA = os.environ.get("PAYOFF_LAMBDA", "OPTIONS-SERVICES-PAYOFF")
 
 
-def preprocess_payload(option):
-    payload = {"options": [], "strategy": False}
-    transaction_types = ("SHORT", "LONG")
-    for t in transaction_types:
-        tmp_opt = {
-            "exercise_price": option["exercise_price"],
-            "name": option["name"],
-            "close_price": option["close_price"],
-            "contracts": 1,
-            "type": option["type"],
-            "transaction_type": t
-        }
-        payload["options"].append(tmp_opt)
-    return payload
 
+def preprocess_payload(option):
+    try:
+        payload = {"options": [], "strategy": False}
+        transaction_types = ("SHORT", "LONG")
+        for t in transaction_types:
+            tmp_opt = {
+                "exercise_price": option["exercise_price"],
+                "name": option["name"],
+                "close_price": option["close_price"],
+                "contracts": 1,
+                "type": option["type"],
+                "transaction_type": t
+            }
+            payload["options"].append(tmp_opt)
+        return payload
+    except Exception as e:
+        raise e
+
+def validate_option_input(event):
+    return OptionIput(**event).dict()
 
 async def get_option(option):
     try:
@@ -51,7 +58,13 @@ async def get_payoff(option):
 
 async def handler(event):
     try:
-        body = json.loads(event["body"])
+        body = event.get("body", False)
+        if not body:
+            return {
+                'statusCode':400,
+                'body':'bad request, body not found at event'
+            }
+        body = validate_option_input(json.loads(body))
         option_series = pd.DataFrame(await get_option(body)).sort_values("date")
         option = option_series.iloc[-1]
         payoff = await get_payoff(option.to_dict())
@@ -70,3 +83,4 @@ async def handler(event):
 def lambda_handler(event, context):
     loop = asyncio.get_event_loop()
     return loop.run_until_complete(handler(event))
+
