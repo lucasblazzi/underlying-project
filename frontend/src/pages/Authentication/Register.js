@@ -38,7 +38,7 @@ const Register = props => {
   return (
     <React.Fragment>
       <MetaTags>
-        <title>Register | Skote - React Admin & Dashboard Template</title>
+        <title>Registro de usuário</title>
       </MetaTags>
       <div className="home-btn d-none d-sm-block">
         <Link to="/" className="text-dark">
@@ -54,8 +54,8 @@ const Register = props => {
                   <Row>
                     <Col className="col-7">
                       <div className="text-primary p-4">
-                        <h5 className="text-primary">Free Register</h5>
-                        <p>Get your free Skote account now.</p>
+                        <h5 className="text-primary">Registro</h5>
+                        <p>Inscreva-se agora!</p>
                       </div>
                     </Col>
                     <Col className="col-5 align-self-end">
@@ -87,7 +87,7 @@ const Register = props => {
                     >
                       {user && user ? (
                         <Alert color="success">
-                          Register User Successfully
+                          Usuário registrado com sucesso!
                         </Alert>
                       ) : null}
 
@@ -101,7 +101,7 @@ const Register = props => {
                           name="email"
                           label="Email"
                           className="form-control"
-                          placeholder="Enter email"
+                          placeholder="Insira o email"
                           type="email"
                           required
                         />
@@ -110,19 +110,19 @@ const Register = props => {
                       <div className="mb-3">
                         <AvField
                           name="username"
-                          label="Username"
+                          label="Nome completo"
                           type="text"
                           required
-                          placeholder="Enter username"
+                          placeholder="Insira seu nome completo"
                         />
                       </div>
                       <div className="mb-3">
                         <AvField
                           name="password"
-                          label="Password"
+                          label="Senha"
                           type="password"
                           required
-                          placeholder="Enter Password"
+                          placeholder="Insira a senha"
                         />
                       </div>
 
@@ -131,15 +131,15 @@ const Register = props => {
                           className="btn btn-primary btn-block "
                           type="submit"
                         >
-                          Register
+                          Registrar
                         </button>
                       </div>
 
                       <div className="mt-4 text-center">
                         <p className="mb-0">
-                          By registering you agree to the Skote{" "}
+                          Ao realizar o registro você está concordando com os{" "}
                           <Link to="#" className="text-primary">
-                            Terms of Use
+                            Termos de Uso.
                           </Link>
                         </p>
                       </div>
@@ -149,15 +149,15 @@ const Register = props => {
               </Card>
               <div className="mt-5 text-center">
                 <p>
-                  Already have an account ?{" "}
+                  Já possui conta?{" "}
                   <Link to="/login" className="font-weight-medium text-primary">
                     {" "}
                     Login
                   </Link>{" "}
                 </p>
                 <p>
-                  © {new Date().getFullYear()} Skote. Crafted with{" "}
-                  <i className="mdi mdi-heart text-danger" /> by Themesbrand
+                  © {new Date().getFullYear()} Underlying. Feito com{" "}
+                  <i className="mdi mdi-heart text-danger" />
                 </p>
               </div>
             </Col>

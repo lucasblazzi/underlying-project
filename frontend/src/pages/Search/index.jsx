@@ -4,6 +4,7 @@ import { Row, Col, Card, CardBody, CardImg, Container, Input, Button, Table, Spi
 import "./dots.css";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom"
 
 // const history = useHistory();
 
@@ -145,7 +146,12 @@ class Search extends Component {
                             <h4>Estratégias</h4>
                             <hr />
                             <p>Monte suas próprias estratégias com base em opções reais do mercado e simule operações com opções fictícas criadas em tempo real</p>
-                            <Button color="info" onClick={() => { window.location.href = "../coming-soon" }}>Acessar</Button>
+                            <Link
+                              className="nav-link dropdown-toggle arrow-none"
+                              to="/strategies"
+                            >
+                              <Button color="info" onClick={() => { null }}>Acessar</Button>
+                            </Link>
                           </CardBody>
                         </Card>
                       </Col>
@@ -157,7 +163,12 @@ class Search extends Component {
                             <h4>Grade de opções</h4>
                             <hr />
                             <p>Encontre a grade de opções de ativos com base em seu ativo base. Aqui você pode encontrar todas as opções de uma ação utilizando seu ticker</p>
-                            <Button color="info" onClick={() => { window.location.href = "../coming-soon" }}>Acessar</Button>
+                            <Link
+                              className="nav-link dropdown-toggle arrow-none"
+                              to="/coming-soon"
+                            >
+                              <Button color="info" onClick={() => { null }}>Acessar</Button>
+                            </Link>
                           </CardBody>
                         </Card>
                       </Col>
@@ -169,7 +180,12 @@ class Search extends Component {
                             <h4>Glossário</h4>
                             <hr />
                             <p>Tire suas dúvidas em relação a termos comuns e conceitos relacionados ao mercado de opções</p>
-                            <Button color="info" onClick={() => { window.location.href = "../coming-soon" }}>Acessar</Button>
+                            <Link
+                              className="nav-link dropdown-toggle arrow-none"
+                              to="/glossary"
+                            >
+                              <Button color="info" onClick={() => { null }}>Acessar</Button>
+                            </Link>
                           </CardBody>
                         </Card>
                       </Col>
@@ -183,8 +199,8 @@ class Search extends Component {
             <Row >
               <Col style={{ "textAlign": "center", "marginTop": "20px" }}>
                 <Row style={{ "justifyContent": "center" }}>
-                  <div style={{ "textAlign": "center", "marginBottom": "20px", "marginTop": "30px"   }}><h4>Buscar Opções:</h4></div>
-                  <Col xl={{ "size": "8"}}>
+                  <div style={{ "textAlign": "center", "marginBottom": "20px", "marginTop": "30px" }}><h4>Buscar Opções:</h4></div>
+                  <Col xl={{ "size": "8" }}>
                     <Input
                       type="text"
                       id="busca"
