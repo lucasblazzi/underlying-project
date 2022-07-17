@@ -23,7 +23,7 @@ import { withRouter } from "react-router-dom"
 //Import Breadcrumb
 import Breadcrumb from "../../components/Common/Breadcrumb"
 
-import avatar from "../../assets/images/users/avatar-2.jpg"
+import avatar from "../../assets/images/users/Avatar.png"
 // actions
 import { editProfile, resetProfileFlag } from "../../store/actions"
 
@@ -68,11 +68,11 @@ const UserProfile = props => {
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>Profile | Skote - React Admin & Dashboard Template</title>
+          <title>Perfil | Underlying</title>
         </MetaTags>
         <Container fluid>
           {/* Render Breadcrumb */}
-          <Breadcrumb title="Skote" breadcrumbItem="Profile" />
+          <Breadcrumb breadcrumbItem="Perfil" />
 
           <Row>
             <Col lg="12">
@@ -102,7 +102,7 @@ const UserProfile = props => {
             </Col>
           </Row>
 
-          <h4 className="card-title mb-4">Change User Name</h4>
+          <h4 className="card-title mb-4">Alterar nome</h4>
 
           <Card>
             <CardBody>
@@ -115,10 +115,10 @@ const UserProfile = props => {
                 <div className="form-group">
                   <AvField
                     name="username"
-                    label="User Name"
+                    label="Nome"
                     value={name}
                     className="form-control"
-                    placeholder="Enter User Name"
+                    placeholder="Nome"
                     type="text"
                     required
                   />
@@ -126,12 +126,14 @@ const UserProfile = props => {
                 </div>
                 <div className="text-center mt-4">
                   <Button type="submit" color="danger">
-                    Update User Name
+                    Alterar nome
                   </Button>
                 </div>
               </AvForm>
             </CardBody>
           </Card>
+
+          
         </Container>
       </div>
     </React.Fragment>

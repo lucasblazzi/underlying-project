@@ -103,7 +103,7 @@ class Opts extends Component {
           <MarketTable data={this.state.data.market} />
         </Row>
         <Row>
-          <OptsShortChart data={this.state.data.payoff[0]} />
+          <OptsShortChart data={this.state.data.payoff[0]} title={"Payoff - Operação de Venda (SHORT)"}/>
         </Row>
         <Row>
           <OptionsLong data={this.state.data.payoff} />
