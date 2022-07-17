@@ -2,6 +2,7 @@ import os
 import json
 import asyncio
 from io import BytesIO
+import pandas as pd
 
 from cryptography.fernet import Fernet
 from elasticsearch import Elasticsearch
