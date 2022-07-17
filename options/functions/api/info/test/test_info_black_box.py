@@ -82,6 +82,13 @@ class TestInfoAsyncio(IsolatedAsyncioTestCase):
         for my_bucket_object in my_bucket.objects.all():
             log.debug(my_bucket_object)
 
+    async def test_get_option_except(self):
+        _get_option_input = TestInput.get_option_input()['option']
+        _get_option_output = TestOutput.get_option_output()
+        with pytest.raises(Exception):
+            result = await app.get_option(_get_option_input)
+        
+
     @mock.patch('info.app.app.get_option', return_value = TestOutput.get_option_output())
     async def test_get_option(self, mk_get_option):
         _get_option_input = TestInput.get_option_input()['option']

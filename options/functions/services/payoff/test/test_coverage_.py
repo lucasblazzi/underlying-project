@@ -7,7 +7,7 @@ from .input import TestPayoff
 
 
 def validation_error_interface(test_case):
-    with pytest.raises(ValidationError):
+    with pytest.raises(Exception):
         lambda_handler(test_case, "")
 
 
@@ -21,6 +21,6 @@ def test_strategy_false():
     res = lambda_handler(test_case, "")
     assert isinstance(res, list)
 
-# def test_invalid_dict():
-#     test_case = TestPayoff.input_invalid_dict()
-#     validation_error_interface(test_case)
+def test_invalid_dict():
+    test_case = TestPayoff.input_invalid_dict()
+    validation_error_interface(test_case)
