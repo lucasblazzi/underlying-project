@@ -18,6 +18,7 @@ class Strategies extends Component {
       chartModal: [false],
       isCreated: false,
       createResponse: null,
+      validateMessage: "Aviso: ",
     }
     this.req = this.req.bind(this);
     this.removeBodyCss = this.removeBodyCss.bind(this);
@@ -28,6 +29,7 @@ class Strategies extends Component {
     this.changeTransactionType = this.changeTransactionType.bind(this);
     this.changeStrategy = this.changeStrategy.bind(this);
     this.updateStrategy = this.updateStrategy.bind(this);
+    this.validate = this.validate.bind(this);
   }
 
   addOpt(value) {
@@ -54,6 +56,20 @@ class Strategies extends Component {
     });
   }
 
+  validate(field, value) {
+    switch (field) {
+      case "contratos":
+        if(parseFloat(value) < 0) {
+          this.setState({ validateMessage: this.state.validateMessage.concat("Se o contrato não for positivo, ele será inserido como 1\n") });
+        } else if(parseFloat(value) % 1 != 0) {
+          this.setState({ validateMessage: this.state.validateMessage.concat("Se o contrato não for um número inteiro, ele será arredondado!\n") });
+        }
+        break;
+      default:
+        this.setState({ validateMessage: "" });
+        break;
+    }
+  }
 
   /**
   * Recebe a url do endpoint, o corpo que passará pelo stringfy e o nome do campo que será modificado no state do construtor do Componente React
@@ -96,7 +112,7 @@ class Strategies extends Component {
     //console.log("Strategy Data: ", this.state.strategyData);
     //await this.req("https://jdmgjcpm1m.execute-api.us-east-1.amazonaws.com/v1/payoff", JSON.stringify({"strategy":"this.state.strategyData.strategy"}), "payoffData");
     //console.log("Payoff Data: ", this.state.payoffData);
-
+    this.setState({validateMessage: "Aviso: "});
     toastr.options = {
       timeOut: 6000,
       closeButton: true,
@@ -131,7 +147,17 @@ class Strategies extends Component {
 
   changeContractNum(value, num) {
     if(value == "" || value == null) {
-      value = 0;
+      value = 1;
+    }
+
+    if (value < 1) {
+      if(value > 0){
+        value = 1;
+      } else {
+        value = value * (-1);
+      }
+    } else if(value  % 1 != 0) {
+      value = Math.floor(value);
     }
 
     var newOptions = this.state.options;
@@ -190,13 +216,25 @@ class Strategies extends Component {
         content = this.state.options.map((opt, index) => {
           var self = this;
           var num = index;
+          var ctt = opt.contracts + " contratos";
           return <Tbody key={index}>
             <Tr>
               <Td style={{ "padding": "2rem" }}>
                 {opt.name}
               </Td>
               <Td style={{ "padding": "2rem" }}>
-                <Input type="number" step={1} name="contracts" id="contracts" placeholder="Nº contratos" onChange={(e) => {this.changeContractNum(e.target.value, num)}}/>
+                <Input type="number" step={1} name="contracts" id="contracts" placeholder={ctt} onChange={(e) => {
+                  if (e.target.value < 1) {
+                    if(e.target.value > 0){
+                      e.target.value = 1;
+                    } else {
+                      e.target.value = e.target.value * (-1);
+                    }
+                  } else if(e.target.value  % 1 != 0) {
+                    e.target.value = Math.floor(e.target.value);
+                  }
+                  this.changeContractNum(parseInt(e.target.value), num)
+                }}/>
               </Td>
               <Td style={{ "padding": "2rem" }}>
                 {opt.exercise_price}
@@ -208,7 +246,7 @@ class Strategies extends Component {
                 {opt.type}
               </Td>
               <Td style={{ "padding": "2rem" }}>
-                <Input className="form-select" type="select" name="transaction_type" id="transaction_type" onChange={(e) => {this.changeTransactionType(e.target.value, num)}}>
+                <Input className="form-select" value={opt.transaction_type} type="select" name="transaction_type" id="transaction_type" onChange={(e) => {this.changeTransactionType(e.target.value, num)}}>
                   <option value="LONG">LONG</option>
                   <option value="SHORT">SHORT</option>
                 </Input>
@@ -286,7 +324,9 @@ class Strategies extends Component {
                             <div style={{ "textAlign": "center", "marginBottom": "20px", "marginTop": "30px" }}><h4>Buscar Opções:</h4></div>
                           </Row>
                           <Row style={{ "justifyContent": "center" }}>
-                            <Col xl={{ "size": "10" }}><SearchBar addOption={this.addOpt} /></Col>
+                            <Col xl={{ "size": "10" }}>
+                              <SearchBar addOption={this.addOpt} />
+                            </Col>
                             <Col xl={{ "size": "2" }}>
                               <button
                                 type="button"
@@ -362,10 +402,22 @@ class Strategies extends Component {
                                     <Col xl={{ "size": "4" }}>
                                       <Input
                                         type="number"
+                                        min={1}
                                         step={1}
                                         id="contracts_fc"
-                                        required
                                         placeholder="Contratos"
+                                        onChange={(e) => {
+                                          if (e.target.value < 1) {
+                                            if(e.target.value > 0){
+                                              e.target.value = 1;
+                                            } else {
+                                              e.target.value = e.target.value * (-1);
+                                            }
+                                          } else if(e.target.value  % 1 != 0) {
+                                            e.target.value = Math.floor(e.target.value);
+                                          }
+                                        }}
+                                        required
                                       />
                                     </Col>
                                     <Col xl={{ "size": "4" }}>
@@ -375,6 +427,15 @@ class Strategies extends Component {
                                         id="price_option"
                                         required
                                         placeholder="Preço (Opção)"
+                                        onChange={(e) => {
+                                          if (e.target.value < 1) {
+                                            if(e.target.value > 0){
+                                              e.target.value = 1;
+                                            } else {
+                                              e.target.value = e.target.value * (-1);
+                                            }
+                                          }
+                                        }}
                                       />
                                     </Col>
                                     <Col xl={{ "size": "4" }}>
@@ -384,10 +445,21 @@ class Strategies extends Component {
                                         id="price_underlying"
                                         required
                                         placeholder="Preço (Underlying)"
+                                        onChange={(e) => {
+                                          if (e.target.value < 1) {
+                                            if(e.target.value > 0){
+                                              e.target.value = 1;
+                                            } else {
+                                              e.target.value = e.target.value * (-1);
+                                            }
+                                          }
+                                        }}
                                       />
                                     </Col>
                                   </Row>
 
+                                  <Row>{""}<br /></Row>
+                                  {/* <Row>{""}{this.state.validateMessage}</Row> */}
                                   <Row>{""}<br /></Row>
 
                                   <Row style={{ "justifyContent": "center" }}>
@@ -396,8 +468,8 @@ class Strategies extends Component {
                                         var obj = {
                                           name: document.getElementById("name").value,
                                           id: "",
-                                          exercise_price: parseInt(document.getElementById("price_option").value),
-                                          close_price: parseInt(document.getElementById("price_underlying").value),
+                                          exercise_price: parseFloat(document.getElementById("price_option").value),
+                                          close_price: parseFloat(document.getElementById("price_underlying").value),
                                           type: document.getElementById("option_type_fc").value,
                                           contracts: parseInt(document.getElementById("contracts_fc").value),
                                           transaction_type: document.getElementById("transaction_type_fc").value,

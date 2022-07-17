@@ -22,9 +22,10 @@ import Strategies from "pages/Strategies"
 import Glossary from "pages/Glossary"
 import SharedStrategies from "pages/Strategies/shared"
 import ViewStrategy from "pages/Strategies/view"
+import PersonalStrategies from "pages/Strategies/personal"
 
 const authProtectedRoutes = [
-  { path: "/dashboard", component: Dashboard },
+  { path: "/dashboard", component: Search },
 
   // //profile
   { path: "/profile", component: UserProfile },
@@ -40,11 +41,12 @@ const authProtectedRoutes = [
   { path: "/strategies", component: Strategies },
   { path: "/view-strategies", component: SharedStrategies },
   { path: "/view-strategy", component: ViewStrategy },
+  { path: "/my-strategies", component: PersonalStrategies },
 
   { path: "/glossary", component: Glossary },
 
   { path:"/coming-soon", component: PagesComingsoon},
-  { path: "/", component: Dashboard },
+  { path: "/", component: Search },
 
   // this route should be at the end of all other routes
   // eslint-disable-next-line react/display-name

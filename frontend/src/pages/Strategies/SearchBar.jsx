@@ -18,6 +18,7 @@ import {
 import "../Search/dots.css"
 import InfiniteScroll from "react-infinite-scroll-component"
 import PropTypes from "prop-types"
+import SimpleBar from "simplebar-react"
 
 class SearchBar extends Component {
   constructor(props) {
@@ -119,15 +120,17 @@ class SearchBar extends Component {
                 next={this.renderOptions}
                 hasMore={true}
               >
+                <SimpleBar style={{ "maxHeight": "630px" }}>
                 <div
                   className="table-responsive"
                   style={{
-                    position: "absolute",
-                    zIndex: "1",
-                    backgroundColor: "whitesmoke",
+                    // "position": "absolute",
+                    // "zIndex": "1",
+                    "backgroundColor": "whitesmoke",
+                    "overflow": "scroll",
                   }}
                 >
-                  <Table className="table align-middle table-nowrap custom-hover" style={{"width": "50vw"}}>
+                  <Table className="table align-middle table-nowrap">
                     <tbody>
                       {this.state.result.map((element, index) => (
                         <tr
@@ -201,6 +204,7 @@ class SearchBar extends Component {
                     </tbody>
                   </Table>
                 </div>
+                </SimpleBar>
               </InfiniteScroll>
             </Dropdown>
           ))

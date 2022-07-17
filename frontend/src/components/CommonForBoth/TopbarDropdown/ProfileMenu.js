@@ -14,7 +14,7 @@ import { connect } from "react-redux"
 import { withRouter, Link } from "react-router-dom"
 
 // users
-import user1 from "../../../assets/images/users/avatar-2.jpg"
+import user1 from "../../../assets/images/users/Avatar.png"
 
 const ProfileMenu = props => {
   // Declare a new state variable, which we'll call "menu"
@@ -61,12 +61,12 @@ const ProfileMenu = props => {
           <DropdownItem tag="a" href="/profile">
             {" "}
             <i className="bx bx-user font-size-16 align-middle me-1"/>
-            {props.t("Profile")}{" "}
+            {props.t("Perfil")}{" "}
           </DropdownItem>
           <div className="dropdown-divider"/>
           <Link to="/logout" className="dropdown-item">
             <i className="bx bx-power-off font-size-16 align-middle me-1 text-danger"/>
-            <span>{props.t("Logout")}</span>
+            <span>{props.t("Sair")}</span>
           </Link>
         </DropdownMenu>
       </Dropdown>
