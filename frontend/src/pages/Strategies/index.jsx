@@ -368,6 +368,12 @@ class Strategies extends Component {
                                         id="name"
                                         required
                                         placeholder="Nome"
+                                        onBlur={(e) => {
+                                          if(e.target.value == ""){
+                                            //Não sei o que fazer
+                                            e.target.value = "Nome";
+                                          }
+                                        }}
                                       />
                                     </Col>
                                     <Col xl={{ "size": "3" }}>
