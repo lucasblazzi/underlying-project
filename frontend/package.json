@@ -86,6 +86,7 @@
     "react-super-responsive-table": "^5.2.0",
     "react-switch": "^6.0.0",
     "react-table": "^7.7.0",
+    "react-test-renderer": "^17.0.2",
     "react-time-picker": "^4.3.0",
     "react-toast-notifications": "^2.4.4",
     "react-toastr": "^3.0.0",
