@@ -9,7 +9,6 @@
     "@fullcalendar/interaction": "^5.7.0",
     "@fullcalendar/react": "^5.7.0",
     "@lourenci/react-kanban": "^2.1.0",
-    "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^13.1.9",
     "@vtaits/react-color-picker": "^0.1.1",
@@ -125,5 +124,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4"
   }
 }

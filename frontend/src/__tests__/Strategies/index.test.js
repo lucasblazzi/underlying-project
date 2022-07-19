@@ -3,6 +3,7 @@ import Strategies from '../../pages/Strategies/index';
 import renderer from 'react-test-renderer';
 import { Row, Col, Card, CardBody, Container, Input, Spinner, Button, Collapse, Modal, Label } from "reactstrap";
 import SearchBar from "../../pages/Strategies/SearchBar";
+import OptsShortChart from "../../pages/Opts/OptsShortChart";
 
 it('Página', () => {
     const tree = renderer.create(<div className="page-content"></div>).toJSON();

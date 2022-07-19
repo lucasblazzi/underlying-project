@@ -2,6 +2,6 @@
 
 exports[`Página 1`] = `
 <div
-  className="page-content"
+  id="line-chart"
 />
 `;

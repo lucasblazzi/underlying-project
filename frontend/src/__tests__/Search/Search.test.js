@@ -2,6 +2,7 @@ import React from 'react';
 import Search from '../../pages/Search/index';
 import renderer from 'react-test-renderer'
 import { Row, Col, Card, CardBody, CardImg, Container, Input, Button, Table, Spinner, InputGroup, InputGroupAddon } from "reactstrap";
+import { render, fireEvent, getByLabelText } from '@testing-library/react';
 
 it('Página', () => {
     const tree = renderer.create(<div className="page-content"></div>).toJSON();

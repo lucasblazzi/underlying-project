@@ -1,5 +1,6 @@
 import React from 'react';
 import Opts from '../../pages/Opts/index';
+import OptsShortChart from '../../pages/Opts/OptsShortChart';
 import renderer from 'react-test-renderer';
 import { Row, Col, Card, CardBody, Input } from "reactstrap";
 

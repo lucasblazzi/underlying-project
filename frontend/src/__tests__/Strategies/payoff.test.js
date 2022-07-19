@@ -4,6 +4,6 @@ import renderer from 'react-test-renderer';
 import ReactApexChart from "react-apexcharts";
 
 it('Página', () => {
-    const tree = renderer.create(<Payoff/>).toJSON();
+    const tree = renderer.create(<div id="line-chart"/>).toJSON();
     expect(tree).toMatchSnapshot();
 })
