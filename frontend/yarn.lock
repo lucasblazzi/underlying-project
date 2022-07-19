@@ -13236,6 +13236,11 @@
   "resolved" "https://registry.npmjs.org/sweetalert2-react-content/-/sweetalert2-react-content-5.0.1.tgz"
   "version" "5.0.1"
 
+"sweetalert2@^11.4.23":
+  "integrity" "sha512-BfO0gIIHu4SJiixBHpCmd74W+EkORJPX9zy5HLp6vkMAz7RsUED7BhrOBEYrYYgw9nnbxYOwzJDDVPNuK1JQtQ=="
+  "resolved" "https://registry.npmjs.org/sweetalert2/-/sweetalert2-11.4.23.tgz"
+  "version" "11.4.23"
+
 "symbol-tree@^3.2.4":
   "integrity" "sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw=="
   "resolved" "https://registry.npmjs.org/symbol-tree/-/symbol-tree-3.2.4.tgz"
