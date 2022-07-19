@@ -28,6 +28,7 @@ class PersonalStrategies extends Component {
     this.sweetalert = this.sweetalert.bind(this)
     this.deleteStrategy = this.deleteStrategy.bind(this)
     this.getStrategies = this.getStrategies.bind(this)
+    this.share = this.share.bind(this)
   }
 
   sweetalert(id) {
@@ -104,6 +105,23 @@ class PersonalStrategies extends Component {
       .catch(error => console.log("error", error))
   }
 
+  share(id) {
+    var requestOptions = {
+        method: 'POST',
+        body: JSON.stringify({ id: id, shared: true }),
+        redirect: 'follow'
+    };
+    fetch("https://jdmgjcpm1m.execute-api.us-east-1.amazonaws.com/v1/share", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            toastr.success("", "Estratégia compartilhada com sucesso!")
+        })
+        .catch(error => {
+            console.log('error', error)
+            toastr.error("Erro", "A estratégia não foi compartilhada!")
+        });
+  }
+
   async componentDidMount() {
     await this.getStrategies()
   }
@@ -159,22 +177,55 @@ class PersonalStrategies extends Component {
                 <Card>
                   <CardBody>
                     <Row>
-                      <Col lg="10">
+                      <Col lg="9">
                         <h4>{strt.name}</h4>
                         {strt.username}
                       </Col>
-                      <Col lg="1">
+                      {strt.shared == false 
+                        ? <Col lg="1">
                         <button
+                          id={"btn"+index}
                           type="button"
                           className="btn btn-light"
                           onClick={event => {
                             event.stopPropagation()
-                            console.log("Editar")
+                            this.share(strt.id)
+                            document.getElementById("btn"+index).hidden = "display: none"
                           }}
                         >
-                          {" "}
-                          <i className="bx bxs-edit-alt"></i>
+                          <i className='bx bxs-share'></i>
                         </button>
+                      </Col>
+                      : <Col lg="1">
+                            <button type="button"
+                                className="btn btn-light" 
+                                onClick={()=>{null}} 
+                                style={{"backgroundColor":"rgba(0, 0, 0, 0)", "borderStyle": "none" }}>
+                            </button>
+                      </Col>
+                    }
+                      <Col lg="1"
+                        onClick={(event) => {
+                            event.stopPropagation()
+                        }}
+                      >
+                            <button
+                            type="button"
+                            className="btn btn-light"
+                            onClick={(this.routingFunction = () => {
+                                this.props.history.push({
+                                  pathname: "/edit-strategy",
+                                  state: {
+                                    name: strt.name,
+                                    id: strt.id,
+                                    strategy: strt.strategy,
+                                  },
+                                })
+                              })}
+                            >
+                            {" "}
+                            <i className="bx bxs-edit-alt"></i>
+                            </button>
                       </Col>
                       <Col lg="1">
                         <button
