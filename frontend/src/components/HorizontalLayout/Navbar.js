@@ -92,17 +92,33 @@ const Navbar = props => {
                 <li className="nav-item dropdown">
                   <Link
                     className="nav-link dropdown-toggle arrow-none"
-                    to="/coming-soon"
+                    to="/strategies"
                   >
                     <i className="bx bx-chart me-2"></i>
                     {props.t("Estratégias")}
                   </Link>
+                  <div
+                    className={classname("dropdown-menu", { show: dashboard })}
+                  >
+                    <Link
+                      className="dropdown-item"
+                      to="/my-strategies"
+                    >
+                      {props.t("Ver minhas estratégias")}
+                    </Link>
+                    <Link to="/view-strategies" className="dropdown-item">
+                      {props.t("Ver estratégias compartilhadas")}
+                    </Link>
+                    <Link to="/strategies" className="dropdown-item">
+                      {props.t("Criar estrutura de operação")}
+                    </Link>
+                  </div>
                 </li>
 
                 <li className="nav-item dropdown">
                   <Link
                     className="nav-link dropdown-toggle arrow-none"
-                    to="/coming-soon"
+                    to="/glossary"
                   >
                     <i className="bx bx-book-bookmark me-2"></i>
                     {props.t("Glossário")}

@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Barra de busca 1`] = `
+<input
+  className="form-control"
+  id="busca"
+  type="text"
+/>
+`;
+
+exports[`Página 1`] = `
+<div
+  className="page-content"
+/>
+`;
+
+exports[`Resultado de pesquisa 1`] = `
+<div
+  className="row"
+  id="load"
+/>
+`;

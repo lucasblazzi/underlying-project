@@ -1,6 +1,6 @@
 from uuid import uuid4
 from typing import List
-from pydantic import BaseModel, validator, Field, StrictStr
+from pydantic import BaseModel, validator, Field
 
 
 VALID_TYPES = ("CALL", "PUT")
@@ -33,4 +33,5 @@ class Strategy(BaseModel):
     username: str = Field(None, min_length=6, max_length=20)
     id = str(uuid4())
     shared = False
+    deleted = False
     strategy: List[Option] = Field(min_items=1)

@@ -94,7 +94,7 @@ class OptsShortChart extends Component {
                     <Card>
                         <CardBody>
                             <div className="clearfix">
-                                <h4 className="card-title mb-4">Payoff - Operação de Venda (SHORT)</h4>
+                                <h4 className="card-title mb-4">{this.props.title}</h4>
                             </div>
                             <Row>
                                 <Col lg="8">
@@ -129,6 +129,7 @@ class OptsShortChart extends Component {
 
 OptsShortChart.propTypes = {
     data: PropTypes.object,
+    title: PropTypes.string,
 }
 
 export default OptsShortChart;

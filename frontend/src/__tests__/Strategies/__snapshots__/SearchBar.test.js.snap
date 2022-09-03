@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Barra Pesquisa 1`] = `
+<input
+  className="form-control"
+  id="busca"
+  type="text"
+/>
+`;
+
+exports[`Página 1`] = `
+<div
+  className="row"
+>
+  <div
+    className="col-xl-12"
+  >
+    <input
+      className="form-control"
+      id="busca"
+      onChange={[Function]}
+      placeholder="Buscar..."
+      required={true}
+      style={
+        Object {
+          "marginBottom": "2rem",
+        }
+      }
+      type="text"
+    />
+  </div>
+  <div
+    className="row"
+    hidden={true}
+    id="load"
+  >
+    <div
+      className="col-sm-12 col-md-8 offset-md-6 col-xl-8 offset-xl-6"
+    >
+      <div
+        className="dot-flashing mt-2"
+      />
+    </div>
+  </div>
+  <div
+    className="row"
+    style={
+      Object {
+        "justifyContent": "center",
+      }
+    }
+  >
+    <div
+      className="col-xl-8"
+    >
+      <div />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Resultado Pesquisa 1`] = `
+<div
+  className="row"
+  id="load"
+/>
+`;

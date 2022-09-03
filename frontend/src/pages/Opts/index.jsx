@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Loading from "components/CommonForBoth/Loading";
+//import Loading from "components/CommonForBoth/Loading";
 import MetaTags from "react-meta-tags";
 import PropTypes from "prop-types";
 import { Row, Col, Card, CardBody, CardTitle, Container, Spinner, } from "reactstrap";
@@ -103,7 +103,7 @@ class Opts extends Component {
           <MarketTable data={this.state.data.market} />
         </Row>
         <Row>
-          <OptsShortChart data={this.state.data.payoff[0]} />
+          <OptsShortChart data={this.state.data.payoff[0]} title={"Payoff - Operação de Venda (SHORT)"}/>
         </Row>
         <Row>
           <OptionsLong data={this.state.data.payoff} />
