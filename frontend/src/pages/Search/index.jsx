@@ -35,6 +35,7 @@ class Search extends Component {
   onChangeHandler(e) {
     this.setState({ result: [], });
     this.setState({ count: 0 });
+    this.setState({ loading: true });
     var requestOptions = {
       method: 'POST',
       body: JSON.stringify({
@@ -47,7 +48,7 @@ class Search extends Component {
     if (this.timeout) clearTimeout(this.timeout);
 
     document.getElementById("load").hidden = false;
-
+    
     this.timeout = setTimeout(() => {
       this.search(requestOptions);
       this.setState({ busca: e.target.value });
@@ -82,6 +83,15 @@ class Search extends Component {
     if (this.state.result == null) {
       resultContent = <div></div>;
     } else {
+      if(this.state.result.length == 0 && this.state.loading == false) {
+        if(this.state.busca == "") {
+          resultContent = <div></div>;
+        } else {
+          document.getElementById("load").hidden = true;
+          resultContent = <h4 style={{"textAlign": "center"}} className="mb-3">Nenhum resultado encontrado para {this.state.busca}</h4>;
+        }
+      } else {
+      //document.getElementById("load").hidden = true;
       resultContent = <InfiniteScroll
         dataLength={this.state.result.length}
         next={this.renderOptions}
@@ -124,6 +134,7 @@ class Search extends Component {
           </Table>
         </div>
       </InfiniteScroll>
+      }
     }
     return (
       <React.Fragment>
