@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import MetaTags from "react-meta-tags";
-import { Row, Col, Card, CardBody, Container, Input, Spinner, Button, Collapse, Modal } from "reactstrap"
+import { Row, Col, Card, CardBody, Container, Input, Spinner, Button, Collapse, Modal, Label } from "reactstrap"
 import { Table, Thead, Tbody, Tr, Td, Th } from "react-super-responsive-table";
 import OptsShortChart from "pages/Opts/OptsShortChart";
 import Payoff from "./payoff";
@@ -56,19 +56,14 @@ class Strategies extends Component {
     });
   }
 
-  validate(field, value) {
-    switch (field) {
-      case "contratos":
-        if(parseFloat(value) < 0) {
-          this.setState({ validateMessage: this.state.validateMessage.concat("Se o contrato não for positivo, ele será inserido como 1\n") });
-        } else if(parseFloat(value) % 1 != 0) {
-          this.setState({ validateMessage: this.state.validateMessage.concat("Se o contrato não for um número inteiro, ele será arredondado!\n") });
-        }
-        break;
-      default:
-        this.setState({ validateMessage: "" });
-        break;
-    }
+  validate(obj) {
+    if(
+      obj.name.length > 3 &&
+      obj.exercise_price > 0 &&
+      obj.close_price > 0 &&
+      obj.contracts > 0
+    ) return true;
+    else return false;
   }
 
   /**
@@ -363,14 +358,17 @@ class Strategies extends Component {
                                 <div className="modal-body">
                                   <Row>
                                     <Col xl={{ "size": "6" }}>
+                                      <Label for="name">Nome da opção <code>{"(4 digitos ou mais)"}</code>:</Label>
                                       <Input
                                         type="text"
                                         id="name"
+                                        minLength={3}
                                         required
                                         placeholder="Nome"
                                       />
                                     </Col>
                                     <Col xl={{ "size": "3" }}>
+                                      <Label for="option_type_fc">Tipo da opção:</Label>
                                       <Input
                                         type="select"
                                         className="form-select"
@@ -383,6 +381,7 @@ class Strategies extends Component {
                                       </Input>
                                     </Col>
                                     <Col xl={{ "size": "3" }}>
+                                      <Label for="transaction_type_fc">Tipo da transação:</Label>
                                       <Input
                                         type="select"
                                         className="form-select"
@@ -400,6 +399,7 @@ class Strategies extends Component {
 
                                   <Row>
                                     <Col xl={{ "size": "4" }}>
+                                      <Label for="contracts_fc">Nº de contratos:</Label>
                                       <Input
                                         type="number"
                                         min={1}
@@ -421,10 +421,11 @@ class Strategies extends Component {
                                       />
                                     </Col>
                                     <Col xl={{ "size": "4" }}>
+                                      <Label for="price_option_fc">Preço da opção:</Label>
                                       <Input
                                         type="number"
                                         step={0.01}
-                                        id="price_option"
+                                        id="price_option_fc"
                                         required
                                         placeholder="Preço (Opção)"
                                         onChange={(e) => {
@@ -439,10 +440,11 @@ class Strategies extends Component {
                                       />
                                     </Col>
                                     <Col xl={{ "size": "4" }}>
+                                      <Label for="price_underlying_fc">Preço Underlying:</Label>
                                       <Input
                                         type="number"
                                         step={0.01}
-                                        id="price_underlying"
+                                        id="price_underlying_fc"
                                         required
                                         placeholder="Preço (Underlying)"
                                         onChange={(e) => {
@@ -464,17 +466,22 @@ class Strategies extends Component {
 
                                   <Row style={{ "justifyContent": "center" }}>
                                     <Col xl={{ "size": "4" }} style={{ "textAlign": "center" }}>
-                                      <Button color="primary" onClick={() => { 
+                                      <Button color="primary" onClick={() => {
                                         var obj = {
                                           name: document.getElementById("name").value,
                                           id: "",
-                                          exercise_price: parseFloat(document.getElementById("price_option").value),
-                                          close_price: parseFloat(document.getElementById("price_underlying").value),
+                                          exercise_price: parseFloat(document.getElementById("price_option_fc").value),
+                                          close_price: parseFloat(document.getElementById("price_underlying_fc").value),
                                           type: document.getElementById("option_type_fc").value,
                                           contracts: parseInt(document.getElementById("contracts_fc").value),
                                           transaction_type: document.getElementById("transaction_type_fc").value,
                                         }
-                                        this.addOpt(obj); 
+                                        if(this.validate(obj)) {
+                                          this.addOpt(obj)
+                                          toastr.success("Opção inserida com sucesso!")
+                                        } else {
+                                          toastr.error("Preencha todos os campos corretamente!")
+                                        }
                                       }}>Adicionar</Button>
                                     </Col>
                                   </Row>

@@ -55,6 +55,7 @@ class SearchBar extends Component {
   onChangeHandler(e) {
     this.setState({ result: [] })
     this.setState({ count: 0 })
+    this.setState({ loading: true });
     var requestOptions = {
       method: "POST",
       body: JSON.stringify({
@@ -99,9 +100,17 @@ class SearchBar extends Component {
 
   render() {
     var resultContent
-    if (this.state.result == null || this.state.result.length == 0) {
-      resultContent = <div></div>
+    if (this.state.result == null) {
+      resultContent = <div></div>;
     } else {
+      if (this.state.result.length == 0 && this.state.loading == false) {
+          if(this.state.busca == "") {
+            resultContent = <div></div>;
+          } else {
+            document.getElementById("load").hidden = true;
+            resultContent = <h5 style={{"textAlign": "center"}} className="mb-3">Nenhum resultado encontrado para {this.state.busca}</h5>;
+          }
+      } else {
       this.setState(prevState => {
         if(prevState.open != true) {
           return { open: true }
@@ -146,30 +155,6 @@ class SearchBar extends Component {
                               contracts: 1,
                               transaction_type: "LONG",
                             }
-                            //console.log("Clicado:", obj)
-                            //Para cada opção, fazer a requisição e guardar num array?
-                            // var requestOptions = {
-                            //   method: "POST",
-                            //   body: obj,
-                            //   redirect: "follow",
-                            // }
-
-                            // fetch(
-                            //   "https://lgbxzn9a97.execute-api.us-east-1.amazonaws.com/v1/info",
-                            //   requestOptions
-                            // )
-                            //   .then(response => response.json())
-                            //   .then(result => {
-                            //     var resObj = {
-                            //       name: result.name,
-                            //       exercise_price: result.exercise_price,
-                            //       transaction_type: "LONG",
-                            //       close_price: 1.23,
-                            //       contracts: 1,
-                            //       type: result.type,
-                            //     }
-                            //   })
-                            //   .catch(error => console.log("error", error))
                             this.props.addOption(obj)
                             document.getElementById("busca").value = ""
                             this.setState({ open: false })
@@ -208,6 +193,7 @@ class SearchBar extends Component {
               </InfiniteScroll>
             </Dropdown>
           ))
+      }                  
     }
     return (
       <>

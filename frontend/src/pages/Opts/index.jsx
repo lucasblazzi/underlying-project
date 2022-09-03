@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Loading from "components/CommonForBoth/Loading";
+//import Loading from "components/CommonForBoth/Loading";
 import MetaTags from "react-meta-tags";
 import PropTypes from "prop-types";
 import { Row, Col, Card, CardBody, CardTitle, Container, Spinner, } from "reactstrap";

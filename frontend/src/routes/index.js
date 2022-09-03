@@ -22,6 +22,7 @@ import Strategies from "pages/Strategies"
 import Glossary from "pages/Glossary"
 import SharedStrategies from "pages/Strategies/shared"
 import ViewStrategy from "pages/Strategies/view"
+import EditStrategy from "pages/Strategies/edit"
 import PersonalStrategies from "pages/Strategies/personal"
 
 const authProtectedRoutes = [
@@ -42,6 +43,7 @@ const authProtectedRoutes = [
   { path: "/view-strategies", component: SharedStrategies },
   { path: "/view-strategy", component: ViewStrategy },
   { path: "/my-strategies", component: PersonalStrategies },
+  { path: "/edit-strategy", component: EditStrategy },
 
   { path: "/glossary", component: Glossary },
 

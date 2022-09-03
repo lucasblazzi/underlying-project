@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CardBody 1`] = `
+<div
+  class="m-3"
+/>
+`;
+
+exports[`Página 1`] = `
+<div
+  class="page-content"
+/>
+`;
